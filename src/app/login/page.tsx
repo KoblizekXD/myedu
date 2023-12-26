@@ -3,6 +3,7 @@
 import ActionButton from "@/components/actionbutton";
 import TextInput from "@/components/textinput";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Login() {
@@ -37,7 +38,10 @@ export default function Login() {
           <h1 className={'font-bold text-2xl mt-4'}>Přihlášení</h1>
           <TextInput onChange={(e) => setIdentity(e.target.value)} name="identity" className={'w-[90%]'} placeholder="Identita" />
           <TextInput type='password' onChange={(e) => setPassword(e.target.value)} name="password" className={'w-[90%]'} placeholder="Heslo" />
-          <ActionButton onClick={handleSignIn} className={'bg-[#0066ff] w-[90%] mb-4 mt-auto border-[0]'}>Pokračovat</ActionButton>
+          <div className={'mb-4 mt-auto flex flex-col gap-2'}>
+            <Link href="/" className={'text-[#0066ff]'}>Domů</Link>
+            <ActionButton onClick={handleSignIn} className={'bg-[#0066ff] border-[0] w-full'}>Pokračovat</ActionButton>
+          </div>
         </form>
       </main>
     </main>

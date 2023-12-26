@@ -6,12 +6,62 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgres"
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model Teacher {
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  password  String
+  classes   Class[]   @relation("HeadAt")
+  subjects  Subject[] @relation("TeachingSubject")
+}
+
+model Student { // TODO: check timestamp stuff
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  password  String
+  birthday  DateTime
+  classes   Class[]   @relation("StudentClass")
+  subjects  Subject[] @relation("StudentSubject")
+  grades    Grade[]   @relation("Grade")
+}
+
+model Class {
+  id        String    @id @default(uuid())
+  name      String
+  teacher   Teacher   @relation("HeadAt", fields: [teacherId], references: [id])
+  teacherId String
+  students  Student[] @relation("StudentClass")
+  subjects  Subject[] @relation("Subjects")
+}
+
+model Subject {
+  id        String          @id @default(uuid())
+  name      String
+  teacher   Teacher         @relation("TeachingSubject", fields: [teacherId], references: [id])
+  teacherId String
+  students  Student[]       @relation("StudentSubject")
+  periods   SubjectPeriod[]
+  class     Class           @relation("Subjects", fields: [classId], references: [id])
+  classId   String
+}
+
+model SubjectPeriod {
+  id        String   @id @default(uuid())
+  subject   Subject  @relation(fields: [subjectId], references: [id])
+  subjectId String
+  from      DateTime @db.Time
+  to        DateTime @db.Time
+}
+
+model Grade {
+  id        Int      @id @default(autoincrement())
+  value     Int
+  studentId String   
+  student   Student  @relation("Grade", fields: [studentId], references: [id])
+  createdAt DateTime @default(now())
 }

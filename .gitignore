@@ -21,6 +21,7 @@
 *.pem
 prisma/dev.db
 dev.db
+.env
 
 # debug
 npm-debug.log*

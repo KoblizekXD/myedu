@@ -7,7 +7,6 @@ const handler = NextAuth({
             name: 'School Login',
             id: 'school_login',
             credentials: {
-                schoolServer: { label: "Škola", type: 'text', placeholder: "spst.cz" },
                 identity: { label: "Email/Identita", type: "text" },
                 password: { label: "Heslo", type: "password" }
             },

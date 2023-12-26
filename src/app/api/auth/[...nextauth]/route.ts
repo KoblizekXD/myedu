@@ -11,6 +11,7 @@ const handler = NextAuth({
                 password: { label: "Heslo", type: "password" }
             },
             async authorize(credentials, req) {
+                
                 return null
             }
         })

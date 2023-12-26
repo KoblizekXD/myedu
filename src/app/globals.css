@@ -2,3 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+.login-bg {
+    background: url('../../public/login_waves.svg') no-repeat center center fixed;
+    background-size: cover;
+}

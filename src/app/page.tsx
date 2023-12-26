@@ -15,7 +15,7 @@ export default function Home() {
         <NavItem href="/">Domů</NavItem>
         <NavItem href="/about">O Projektu</NavItem>
         <NavItem href="/docs">Dokumentace</NavItem>
-        <Reversed>
+        <Reversed direction="l">
           <NavItem href="/login">Přihlásit se</NavItem>
           <NavItem href="/register">Registrovat školu</NavItem>
         </Reversed>

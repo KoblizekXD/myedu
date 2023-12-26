@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import { getProviders, signIn } from "next-auth/react"
 
-interface ButtonProps {
+interface ActionButtonProps {
     children: ReactNode
     bg?: string
     href: string
@@ -10,7 +10,7 @@ interface ButtonProps {
     onClick: Function
 }
 
-export default function Button({children, className, href, bg = "transparent", onClick}: ButtonProps) {
+export default function ActionButton({children, className, href, bg = "transparent", onClick}: ActionButtonProps) {
     return (
         <button onClick={onClick()} className={`${className} w-[270px] rounded border text-white text-center py-3 px-3`}>
             {children}

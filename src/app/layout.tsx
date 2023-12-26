@@ -9,7 +9,7 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: 'MyEdu',
+  title: '📏 MyEdu',
   description: 'Pokročilý školní systém pro správu známek, absence a mnoho dalšího!',
 }
 

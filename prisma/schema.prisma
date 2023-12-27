@@ -17,6 +17,8 @@ model Teacher {
   password  String
   classes   Class[]   @relation("HeadAt")
   subjects  Subject[] @relation("TeachingSubject")
+  school    School    @relation(fields: [schoolId], references: [id])
+  schoolId  String
 }
 
 model Student { // TODO: check timestamp stuff
@@ -28,6 +30,8 @@ model Student { // TODO: check timestamp stuff
   classes   Class[]   @relation("StudentClass")
   subjects  Subject[] @relation("StudentSubject")
   grades    Grade[]   @relation("Grade")
+  school    School    @relation(fields: [schoolId], references: [id])
+  schoolId  String
 }
 
 model Class {
@@ -37,6 +41,8 @@ model Class {
   teacherId String
   students  Student[] @relation("StudentClass")
   subjects  Subject[] @relation("Subjects")
+  school    School    @relation(fields: [schoolId], references: [id])
+  schoolId  String
 }
 
 model Subject {
@@ -48,6 +54,8 @@ model Subject {
   periods   SubjectPeriod[]
   class     Class           @relation("Subjects", fields: [classId], references: [id])
   classId   String
+  school    School          @relation(fields: [schoolId], references: [id])
+  schoolId  String
 }
 
 model SubjectPeriod {
@@ -64,4 +72,13 @@ model Grade {
   studentId String   
   student   Student  @relation("Grade", fields: [studentId], references: [id])
   createdAt DateTime @default(now())
+}
+
+model School {
+  id        String   @id @default(uuid())
+  name      String
+  classes   Class[]
+  subjects  Subject[]
+  teachers  Teacher[]
+  students  Student[]
 }

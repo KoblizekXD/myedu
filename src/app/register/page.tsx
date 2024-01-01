@@ -5,27 +5,27 @@ import TextInput from "@/components/textinput";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { PrismaClient } from "@prisma/client";
 
-export default function Login() {
+const prisma = new PrismaClient();
+
+export default function Register() {
   const [identity, setIdentity] = useState('');
   const [password, setPassword] = useState('');
-  const handleSignIn = () => {
-    useEffect(() => {
-      const handleSignInOnClient = () => {
-        signIn('credentials', {
-          identity,
-          password,
-        });
-      };
-  
-      const handleClick = () => {
-        handleSignInOnClient();
-      };
-  
-      return () => {
-        handleSignInOnClient()
-      };
-    }, [identity, password]);
+
+  const handleSignIn = async () => {
+    prisma.student.create({
+      data: {
+        name: "",
+        email: "",
+        password: "",
+        birthday: "",
+        classes: {},
+        subjects: {},
+        grades: {},
+        school: {}
+      }
+    })
   };
 
   return (

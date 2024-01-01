@@ -10,75 +10,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum AccountType {
+  Student
+  Admin
+  Teacher
+}
+
+model Account {
+  id       String     @id @default(uuid())
+  type     AccountType
+
+  student  Student? 
+  teacher  Teacher?
+  admin    Admin?
+}
+
+model Student {
+  account   Account   @relation(fields: [accountId], references: [id])
+  accountId String    @id
+}
+
 model Teacher {
-  id        String    @id @default(uuid())
-  name      String
-  email     String    @unique
-  password  String
-  classes   Class[]   @relation("HeadAt")
-  subjects  Subject[] @relation("TeachingSubject")
-  school    School    @relation(fields: [schoolId], references: [id])
-  schoolId  String
+  account   Account   @relation(fields: [accountId], references: [id])
+  accountId String    @id
 }
 
-model Student { // TODO: check timestamp stuff
-  id        String    @id @default(uuid())
-  name      String
-  email     String    @unique
-  password  String
-  birthday  DateTime
-  classes   Class[]   @relation("StudentClass")
-  subjects  Subject[] @relation("StudentSubject")
-  grades    Grade[]   @relation("Grade")
-  school    School    @relation(fields: [schoolId], references: [id])
-  schoolId  String
-}
-
-model Class {
-  id        String    @id @default(uuid())
-  name      String
-  teacher   Teacher   @relation("HeadAt", fields: [teacherId], references: [id])
-  teacherId String
-  students  Student[] @relation("StudentClass")
-  subjects  Subject[] @relation("Subjects")
-  school    School    @relation(fields: [schoolId], references: [id])
-  schoolId  String
-}
-
-model Subject {
-  id        String          @id @default(uuid())
-  name      String
-  teacher   Teacher         @relation("TeachingSubject", fields: [teacherId], references: [id])
-  teacherId String
-  students  Student[]       @relation("StudentSubject")
-  periods   SubjectPeriod[]
-  class     Class           @relation("Subjects", fields: [classId], references: [id])
-  classId   String
-  school    School          @relation(fields: [schoolId], references: [id])
-  schoolId  String
-}
-
-model SubjectPeriod {
-  id        String   @id @default(uuid())
-  subject   Subject  @relation(fields: [subjectId], references: [id])
-  subjectId String
-  from      DateTime @db.Time
-  to        DateTime @db.Time
-}
-
-model Grade {
-  id        Int      @id @default(autoincrement())
-  value     Int
-  studentId String   
-  student   Student  @relation("Grade", fields: [studentId], references: [id])
-  createdAt DateTime @default(now())
-}
-
-model School {
-  id        String   @id @default(uuid())
-  name      String
-  classes   Class[]
-  subjects  Subject[]
-  teachers  Teacher[]
-  students  Student[]
+model Admin {
+  account   Account   @relation(fields: [accountId], references: [id])
+  accountId String    @id
 }

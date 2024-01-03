@@ -9,7 +9,7 @@
 
 .main-menu {
     background: url('../../public/polygon-scatter-haikei.svg') repeat center center fixed;
-    animation: slide 30s linear infinite;
+    animation: slide 50s linear infinite;
 }
 
 @keyframes slide {

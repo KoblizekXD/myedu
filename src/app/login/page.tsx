@@ -19,9 +19,10 @@ export default function Login() {
       const res = await signIn('credentials', {
         identity,
         password,
+        redirect: false
       });
       if (res == null || !res.ok) {
-        setError('Špatné přihlašovací údaje.');
+        setError('Špatné přihlašovací údaje');
       }
       setLoading(false);
     } catch (error: any) {

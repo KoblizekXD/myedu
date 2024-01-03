@@ -92,4 +92,14 @@ model Subject {
   teacherId   String
   class       Class     @relation(fields: [classId], references: [id])
   classId     Int
+  periods     Period[]
+}
+
+model Period {
+  id         Int       @id @default(autoincrement())
+  subject    Subject   @relation(fields: [subjectId], references: [id])
+  subjectId  Int
+  topic      String
+  at         DateTime  @db.Timestamp
+  duration   Int       @default(45) // Duration in minutes
 }

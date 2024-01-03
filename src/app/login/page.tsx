@@ -39,8 +39,8 @@ export default function Login() {
         { error != '' ? <TopError error={error} /> : null }
         <form onSubmit={handleSignIn} className={'flex flex-col gap-2 w-1/5 h-1/3 bg-[#181a1f] shadow-xl border border-[#1d2537] rounded *:ml-4 *:mr-4'}>
           <h1 className={'font-bold text-2xl mt-4'}>Přihlášení</h1>
-          <TextInput onChange={(e) => setIdentity(e.target.value)} name="identity" className={'w-[90%]'} placeholder="Identita" />
-          <TextInput type='password' onChange={(e) => setPassword(e.target.value)} name="password" className={'w-[90%]'} placeholder="Heslo" />
+          <TextInput onChange={(e) => setIdentity(e.target.value)} name="identity" className={'px-[5%]'} placeholder="Identita" />
+          <TextInput type='password' onChange={(e) => setPassword(e.target.value)} name="password" className={'px-[5%]'} placeholder="Heslo" />
           <div className={'mb-4 mt-auto flex flex-col gap-2'}>
             <Link href="/" className={'text-[#0066ff]'}>Domů</Link>
             <button disabled={loading} type="submit" className={`disabled:opacity-50 bg-[#0066ff] border-[0] w-full rounded text-white text-center py-3 px-3`}>

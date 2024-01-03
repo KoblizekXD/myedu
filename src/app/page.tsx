@@ -11,6 +11,7 @@ export default function Home() {
         "text-white overflow-auto w-full h-full fixed bg-gradient-to-b to-[#09203F] from-[#181a1f]"
       }
     >
+      <div className="main-menu w-full h-full">
       <Navbar>
         <NavItem href="/">Domů</NavItem>
         <NavItem href="/about">O Projektu</NavItem>
@@ -30,6 +31,8 @@ export default function Home() {
           <Button href="/register">Hledám řešení pro naší školu</Button>
         </div>
       </div>
+      </div>
+      
     </div>
   );
 }

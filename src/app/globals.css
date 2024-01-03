@@ -6,3 +6,18 @@
     background: url('../../public/login_waves.svg') no-repeat center center fixed;
     background-size: cover;
 }
+
+.main-menu {
+    background: url('../../public/polygon-scatter-haikei.svg') repeat center center fixed;
+    animation: slide 30s linear infinite;
+}
+
+@keyframes slide {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        background-position: 120% 120%;
+    }
+}

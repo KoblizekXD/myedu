@@ -10,32 +10,86 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum AccountType {
-  Student
+// UserType basically tells us which table to look for the user in + what permissions they have
+enum UserType {
   Admin
   Teacher
+  Student
 }
 
-model Account {
-  id       String     @id @default(uuid())
-  type     AccountType
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  password  String   // Salted + hashed password
+  type      UserType
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  student  Student? 
-  teacher  Teacher?
-  admin    Admin?
-}
-
-model Student {
-  account   Account   @relation(fields: [accountId], references: [id])
-  accountId String    @id
+  // User can be one of these:
+  teacher   Teacher?
+  student   Student?
+  admin     Admin?
 }
 
 model Teacher {
-  account   Account   @relation(fields: [accountId], references: [id])
-  accountId String    @id
+  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String     @id  
+  school   School     @relation(fields: [schoolId], references: [id])
+  schoolId String
+  class    Class?
+  subjects Subject[]
+}
+
+model Student {
+  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String     @id  
+  school   School     @relation(fields: [schoolId], references: [id])
+  schoolId String
+  class    Class      @relation(fields: [classId], references: [id])
+  classId  Int
 }
 
 model Admin {
-  account   Account   @relation(fields: [accountId], references: [id])
-  accountId String    @id
+  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String     @id  
+  school   School     @relation(fields: [schoolId], references: [id])
+  schoolId String
+}
+
+model School {
+  id        String    @id @default(uuid())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  admins    Admin[]
+  teachers  Teacher[]
+  students  Student[]
+
+  classes   Class[]
+}
+
+model Class {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  school       School    @relation(fields: [schoolId], references: [id])
+  schoolId     String
+  headTeacher  Teacher   @relation(fields: [teacherId], references: [userId])
+  teacherId    String    @unique
+  students     Student[]
+  subjects     Subject[]
+}
+
+model Subject {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  teacher     Teacher   @relation(fields: [teacherId], references: [userId])
+  teacherId   String
+  class       Class     @relation(fields: [classId], references: [id])
+  classId     Int
 }

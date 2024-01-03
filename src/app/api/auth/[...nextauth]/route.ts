@@ -5,25 +5,13 @@ import CredentialsProvider from "next-auth/providers/credentials";
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: "credentials",
       credentials: {
-        username: { label: "Identity", type: "text" },
+        username: { label: "Identita", type: "text" },
         password: { label: "Heslo", type: "password" },
       },
       async authorize(credentials) {
-        const authResponse = await fetch("/users/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(credentials),
-        })
-
-        if (!authResponse.ok) {
-          return null
-        }
-
-        return await authResponse.json()
+        return null
       },
     }),
   ],

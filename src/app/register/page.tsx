@@ -7,9 +7,17 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { URLSearchParams } from "url";
 
+function isValidEmail(email: string, domain: string): boolean {
+  var re = /^(([a-zA-Z0-9]+)|([a-zA-Z0-9]+((?:\_[a-zA-Z0-9]+)|(?:\.[a-zA-Z0-9]+))*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,6}(?:\.[a-zA-Z]{2})?)$)/;
+  return re.test(email) && email.split("@").pop() == domain;
+}
+
 export default function Register() {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
   const [domain, setDomain] = useState("");
+  const [schoolname, setSchoolName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [canSubmit, setCanSubmit] = useState(true);
@@ -18,14 +26,29 @@ export default function Register() {
     try {
       e.preventDefault();
       setLoading(true);
-      const res = await fetch(`/api/school?domain=${domain}`, {
-        method: 'GET'
-      });
-      console.log(res.status)
-      if (res.status == 200) {
-        setError("Doména je již registrována!");
+      if (isValidEmail(email, domain)) {
+        const res = await fetch(`/api/school?domain=${domain}`, {
+          method: 'GET'
+        });
+        console.log(res.status)
+        if (res.status == 200) {
+          setError("Doména je již registrována!");
+        } else {
+          const res = await fetch(`/api/school`, {
+            method: 'POST',
+            body: JSON.stringify({
+              domain: domain,
+              name: schoolname,
+              admin: {
+                name: name,
+                email: email,
+                password: password
+              }
+            })
+          })
+        }
       } else {
-        setError("Yes!");
+        setError("Neplatná email adresa! Ujistite se že doména sedí s emailem.")
       }
       setLoading(false);
     } catch (error: any) {
@@ -47,7 +70,7 @@ export default function Register() {
         <form
           onSubmit={handleRegistrationCheck}
           className={
-            "flex flex-col gap-2 w-1/5 h-1/2 bg-[#181a1f] shadow-xl border border-[#1d2537] rounded *:ml-4 *:mr-4"
+            "flex flex-col gap-2 w-1/5 bg-[#181a1f] shadow-xl border border-[#1d2537] rounded *:ml-4 *:mr-4"
           }
         >
           <h1 className={"font-bold text-2xl mt-4"}>Registrace Školy</h1>
@@ -68,6 +91,16 @@ export default function Register() {
           />
           <TextInput
             onChange={(e) => {
+              setSchoolName(e.target.value);
+              if (e.target.value.length > 0) {
+                setCanSubmit(false);
+              } else setCanSubmit(true);
+            }}
+            name="schoolname"
+            placeholder="Jméno školy"
+          />
+          <TextInput
+            onChange={(e) => {
               setEmail(e.target.value);
               if (e.target.value.length > 0) {
                 setCanSubmit(false);
@@ -76,10 +109,27 @@ export default function Register() {
             name="email"
             placeholder="E-mail hlavního správce"
           />
-          <p className={"text-center"}>
-            Na e-mail Vám zašleme potvrzovací zprávu, poté budete moct
-            pokračovat ve vytváření profilu vaší školy.
-          </p>
+          <TextInput
+            onChange={(e) => {
+              setName(e.target.value);
+              if (e.target.value.length > 0) {
+                setCanSubmit(false);
+              } else setCanSubmit(true);
+            }}
+            name="name"
+            placeholder="Jméno správce"
+          />
+          <TextInput
+            type="password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+              if (e.target.value.length > 0) {
+                setCanSubmit(false);
+              } else setCanSubmit(true);
+            }}
+            name="password"
+            placeholder="Heslo správce"
+          />
           <div className={"mb-4 mt-auto flex flex-col gap-2"}>
             <Link href="/" className={"text-[#0066ff]"}>
               Domů

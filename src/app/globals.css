@@ -26,3 +26,26 @@
         background-position: 120% 120%;
     }
 }
+
+.about-anim {
+   position: absolute;
+   top: 0;
+   left: 0;
+   bottom: 0;
+   right: 0;
+   z-index: -1;
+   overflow: hidden;
+   font-size: 10rem;
+   opacity: 0.3;
+   animation: uhh 50s linear infinite;
+}
+
+@keyframes uhh {
+    0% {
+        transform: translate(-30%, -30%);
+    }
+
+    100% {
+        transform: translate(100%, 100%);
+    }
+}

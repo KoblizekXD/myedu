@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
   
   const body = await req.json();
   if (NewSchoolSchema.safeParse(body).success === true) {
-    prisma.school.create({
+    await prisma.school.create({
       data: {
         domain: body.domain,
         name: body.name,

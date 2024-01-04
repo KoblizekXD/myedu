@@ -50,7 +50,10 @@ export default function Register() {
             }),
           });
           if (res.ok) {
+            setError("")
             setInfo("Registrace proběhla úspěšně! Nyní se můžete přihlásit.");
+          } else {
+            setError("Něco se pokazilo! Je možné že je vaše doména již registrována.");
           }
         }
       } else {

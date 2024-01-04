@@ -2,6 +2,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient, UserType } from "@prisma/client";
+
 import crypto from "crypto";
 import { z } from "zod";
 
@@ -63,6 +64,7 @@ export async function POST(req: NextRequest) {
         }
       }
     })
+    return NextResponse.json({}, { status: 200 });
   } else {
     return NextResponse.json({ error: 'Invalid Json body' }, { status: 400 });
   }

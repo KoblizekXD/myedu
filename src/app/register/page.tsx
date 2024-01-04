@@ -3,12 +3,14 @@
 import ActionButton from "@/components/actionbutton";
 import TextInput from "@/components/textinput";
 import TopError from "@/components/toperror";
+import TopInfo from "@/components/topinfo";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { URLSearchParams } from "url";
 
 function isValidEmail(email: string, domain: string): boolean {
-  var re = /^(([a-zA-Z0-9]+)|([a-zA-Z0-9]+((?:\_[a-zA-Z0-9]+)|(?:\.[a-zA-Z0-9]+))*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,6}(?:\.[a-zA-Z]{2})?)$)/;
+  var re =
+    /^(([a-zA-Z0-9]+)|([a-zA-Z0-9]+((?:\_[a-zA-Z0-9]+)|(?:\.[a-zA-Z0-9]+))*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,6}(?:\.[a-zA-Z]{2})?)$)/;
   return re.test(email) && email.split("@").pop() == domain;
 }
 
@@ -20,6 +22,7 @@ export default function Register() {
   const [schoolname, setSchoolName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [info, setInfo] = useState("");
   const [canSubmit, setCanSubmit] = useState(true);
 
   const handleRegistrationCheck = async (e: FormEvent) => {
@@ -28,27 +31,32 @@ export default function Register() {
       setLoading(true);
       if (isValidEmail(email, domain)) {
         const res = await fetch(`/api/school?domain=${domain}`, {
-          method: 'GET'
+          method: "GET",
         });
-        console.log(res.status)
+        console.log(res.status);
         if (res.status == 200) {
           setError("Doména je již registrována!");
         } else {
           const res = await fetch(`/api/school`, {
-            method: 'POST',
+            method: "POST",
             body: JSON.stringify({
               domain: domain,
               name: schoolname,
               admin: {
                 name: name,
                 email: email,
-                password: password
-              }
-            })
-          })
+                password: password,
+              },
+            }),
+          });
+          if (res.ok) {
+            setInfo("Registrace proběhla úspěšně! Nyní se můžete přihlásit.");
+          }
         }
       } else {
-        setError("Neplatná email adresa! Ujistite se že doména sedí s emailem.")
+        setError(
+          "Neplatná email adresa! Ujistite se že doména sedí s emailem."
+        );
       }
       setLoading(false);
     } catch (error: any) {
@@ -67,6 +75,7 @@ export default function Register() {
         className={"register-bg w-full h-full flex justify-center items-center"}
       >
         {error && <TopError error={error} />}
+        {info && <TopInfo message={info} />}
         <form
           onSubmit={handleRegistrationCheck}
           className={

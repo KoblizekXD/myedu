@@ -10,9 +10,10 @@ const handler = NextAuth({
         username: { label: "Identita", type: "text" },
         password: { label: "Heslo", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
+        let x = req.body?.identity
         return null
-      },
+      }
     }),
   ],
   pages: {

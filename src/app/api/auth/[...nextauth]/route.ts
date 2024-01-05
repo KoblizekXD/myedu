@@ -1,18 +1,26 @@
+import { hash } from "@/util/util";
+import { PrismaClient } from "@prisma/client";
 import { randomBytes, randomUUID } from "crypto";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+
+const prisma = new PrismaClient();
 
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
       name: "credentials",
       credentials: {
-        username: { label: "Identita", type: "text" },
+        identity: { label: "Identita", type: "text" },
         password: { label: "Heslo", type: "password" },
       },
-      async authorize(credentials, req) {
-        
-        return null
+      authorize: async (credentials, req) => {
+        return await prisma.user.findUnique({
+          where: {
+            email: credentials?.identity,
+            password: hash(credentials?.password as string)
+          }
+        })
       }
     }),
   ],

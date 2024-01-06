@@ -3,15 +3,20 @@
 import ActionButton from "@/components/actionbutton";
 import TextInput from "@/components/textinput";
 import TopError from "@/components/toperror";
+import TopInfo from "@/components/topinfo";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 
 export default function Login() {
+  const router = useRouter()
+
   const [identity, setIdentity] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [info, setInfo] = useState('');
   const handleSignIn = async (e: FormEvent) => {
     try {
       e.preventDefault()
@@ -23,11 +28,15 @@ export default function Login() {
       });
       if (res == null || !res.ok) {
         setError('Špatné přihlašovací údaje');
+      } else {
+        setError('')
+        setInfo('Přihlášení proběhlo úspěšně')
+        router.push('/app')
       }
       setLoading(false);
     } catch (error: any) {
       setLoading(false);
-      setError(error)
+      setError(String(error))
     }
   };
 
@@ -38,6 +47,7 @@ export default function Login() {
       }>
       <main className={'login-bg w-full h-full flex justify-center items-center'}>
         { error != '' ? <TopError error={error} /> : null }
+        { info != '' ? <TopInfo message={info} /> : null }
         <form onSubmit={handleSignIn} className={'flex flex-col gap-2 w-1/5 h-1/3 bg-[#181a1f] shadow-xl border border-[#1d2537] rounded *:ml-4 *:mr-4'}>
           <h1 className={'font-bold text-2xl mt-4'}>Přihlášení</h1>
           <TextInput onChange={(e) => setIdentity(e.target.value)} name="identity" className={'px-[5%]'} placeholder="Identita" />

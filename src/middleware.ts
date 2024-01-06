@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-
-export function middleware(request: NextRequest) {
-    return NextResponse.redirect(new URL('/login'))
-}
+export { default } from "next-auth/middleware"
 
 export const config = {
-    matcher: '/app/:path*'
+    matcher: ['/app/:path*', '/app']
 }

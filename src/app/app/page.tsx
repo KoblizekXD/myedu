@@ -1,8 +1,11 @@
+import Navbar from "@/components/app/navbar";
 
 export default function App() {
   return (
-    <main>
-      <h1>I guess you have access here now!</h1>
+    <main className={'text-white overflow-auto w-full h-full fixed bg-gradient-to-b to-[#09203F] from-[#181a1f] flex flex-row'}>
+      <Navbar>
+        
+      </Navbar>
     </main>
   );
 }

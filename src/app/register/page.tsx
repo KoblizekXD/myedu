@@ -5,8 +5,8 @@ import TextInput from "@/components/textinput";
 import TopError from "@/components/toperror";
 import TopInfo from "@/components/topinfo";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
-import { URLSearchParams } from "url";
 
 function isValidEmail(email: string, domain: string): boolean {
   var re =
@@ -15,6 +15,7 @@ function isValidEmail(email: string, domain: string): boolean {
 }
 
 export default function Register() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");

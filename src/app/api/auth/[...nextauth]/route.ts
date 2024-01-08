@@ -1,12 +1,12 @@
 import { hash } from "@/util/util";
 import { PrismaClient } from "@prisma/client";
 import { randomBytes, randomUUID } from "crypto";
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 const prisma = new PrismaClient();
 
-const handler = NextAuth({
+export const config = {
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -36,6 +36,8 @@ const handler = NextAuth({
       return randomUUID?.() ?? randomBytes(32).toString("hex");
     },
   }
-});
+} satisfies NextAuthOptions
+
+const handler = NextAuth(config);
 
 export { handler as GET, handler as POST };

@@ -2,10 +2,15 @@
 
 import Navbar from "@/components/app/navbar";
 import NavItem from "@/components/app/navitem";
+import { getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { config } from "../api/auth/[...nextauth]/route";
 
-export default function AppLayout({children}: {children: React.ReactNode}) {
+export default async function AppLayout({children}: {children: React.ReactNode}) {
   const pathname = usePathname();
+  const session = await getServerSession(config)
+
   const select = (path: string) => {
     if (path == pathname) return true;
     else return false;
@@ -18,6 +23,9 @@ export default function AppLayout({children}: {children: React.ReactNode}) {
       }
     >
       <Navbar>
+        <NavItem href="/app/home" icon="home">
+          {JSON.stringify(session, null, 2)}
+        </NavItem>
         <NavItem href="/app/home" icon="home" selected={select('/app/home')}>
           Domů
         </NavItem>

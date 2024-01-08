@@ -9,16 +9,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
-interface LogInProps {
-  red: boolean;
-}
-
-export default function LogIn({red}: LogInProps) {
+export default function LogIn() {
   const router = useRouter();
-
-  if (red) {
-    router.push("/app");
-  }
 
   const [identity, setIdentity] = useState("");
   const [password, setPassword] = useState("");

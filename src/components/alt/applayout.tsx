@@ -2,8 +2,6 @@
 
 import Navbar from "@/components/app/navbar";
 import NavItem from "@/components/app/navitem";
-import { getServerSession } from "next-auth";
-import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
 interface LayoutProps {

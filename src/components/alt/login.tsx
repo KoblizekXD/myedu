@@ -3,7 +3,6 @@
 import TextInput from "@/components/textinput";
 import TopError from "@/components/toperror";
 import TopInfo from "@/components/topinfo";
-import { getServerSession } from "next-auth";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

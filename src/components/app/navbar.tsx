@@ -1,7 +1,6 @@
 import 'material-icons/iconfont/material-icons.css'
 
 import { ReactNode } from "react";
-import NavItem from "./navitem";
 
 interface NavbarProps {
   children: ReactNode;

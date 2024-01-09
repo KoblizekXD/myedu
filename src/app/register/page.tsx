@@ -5,7 +5,7 @@ import TextInput from "@/components/textinput";
 import TopError from "@/components/toperror";
 import TopInfo from "@/components/topinfo";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 function isValidEmail(email: string, domain: string): boolean {

@@ -2,7 +2,9 @@
 
 import Navbar from "@/components/app/navbar";
 import NavItem from "@/components/app/navitem";
+import { signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 interface LayoutProps {
   session: any;
@@ -10,6 +12,7 @@ interface LayoutProps {
 }
 
 export default function AppLay({session, children} : LayoutProps) {
+  const [profileOpen, setProfileOpen] = useState(false);
   const pathname = usePathname();
 
   const select = (path: string) => {
@@ -57,6 +60,20 @@ export default function AppLay({session, children} : LayoutProps) {
           Soubory
         </NavItem>
         <div className="mt-auto">
+          {profileOpen && (
+            <div className="rounded w-[200px] bg-[#161718] absolute border zobak border-[#313537]">
+              <NavItem onClick={() =>
+                signOut({ callbackUrl: '/login'})
+                
+                } icon="power_settings_new">Odhlásit se</NavItem>
+              <NavItem href="/app/account" icon="account_circle">Účet</NavItem>
+            </div>
+          )}
+          <NavItem
+            onClick={() => setProfileOpen(!profileOpen)}
+            icon="person"
+            selected={select("/app/profile")}
+            >{session.user.name}</NavItem>
           <NavItem
             href="/app/options"
             icon="settings"

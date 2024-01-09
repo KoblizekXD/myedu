@@ -49,3 +49,19 @@
         transform: translate(100%, 100%);
     }
 }
+
+.zobak::before {
+    content: '';
+	position: absolute;
+	width: 0;
+	height: 0;
+	top: 100%;
+	left: 1.5em;
+	border: .75rem solid transparent;
+	border-bottom: none;
+	border-top-color: inherit;
+}
+
+.zobak {
+    transform: translate(5%, -100%);
+}

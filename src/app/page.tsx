@@ -2,8 +2,16 @@ import Button from "@/components/button";
 import Navbar from "@/components/navbar";
 import NavItem from "@/components/navitem";
 import Reversed from "@/components/reversed";
+import { fetchSession } from "@/util/util";
 
-export default function Home() {
+export default async function Home() {
+  const session = await fetchSession();
+
+  let change;
+  if (session) {
+    change = true;
+  } else change = false;
+
   // #09203F
   return (
     <div
@@ -17,18 +25,33 @@ export default function Home() {
           <NavItem href="/about">O Projektu</NavItem>
           <NavItem href="/docs">Dokumentace</NavItem>
           <Reversed direction="l">
-            <NavItem href="/login">Přihlásit se</NavItem>
-            <NavItem href="/register">Registrovat školu</NavItem>
+            {change ?
+              <NavItem href="/app">Pokračovat do aplikace</NavItem> : (
+                <>
+                  <NavItem href="/login">Přihlásit se</NavItem>
+                  <NavItem href="/register">Registrovat školu</NavItem>
+                </>
+              )
+            }
           </Reversed>
         </Navbar>
         <div className={"text-center mt-[30vh] flex flex-col gap-4"}>
           <p className={"font-extrabold text-4xl"}>Ano, serou nás Bakaláři</p>
           <p className={"font-extrabold text-2xl"}>
             Společně ale můžeme vytvořit silnout alternativu
-          </p>
+          </p>{" "}
           <div className={"mt-7 flex justify-center gap-3"}>
-            <Button href="/login">Už mám účet!</Button>
-            <Button href="/register">Hledám řešení pro naší školu</Button>
+            {change ? (
+              <div className="flex justify-center items-center flex-col gap-3 text-l">
+                <h2>Protože jste již přihlášeni, můžeme vás rovnou přesměrovat!</h2>
+                <Button href="/app">Přejít do aplikace</Button>
+              </div>
+            ) : (
+              <div>
+                <Button href="/login">Už mám účet!</Button>
+                <Button href="/register">Hledám řešení pro naší školu</Button>
+              </div>
+            )}
           </div>
         </div>
       </div>

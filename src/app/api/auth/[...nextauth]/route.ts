@@ -35,6 +35,11 @@ export const config = {
     generateSessionToken: () => {
       return randomUUID?.() ?? randomBytes(32).toString("hex");
     },
+  },
+  callbacks: {
+    async jwt({ token, user, profile }) {
+      return token
+    }
   }
 } satisfies NextAuthOptions
 

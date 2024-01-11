@@ -37,9 +37,12 @@ export const config = {
     },
   },
   callbacks: {
-    async jwt({ token, user, profile }) {
+    async jwt({ token, account, user }) {
       return token
-    }
+    },
+    async session({session, token, user}) {
+      return session
+    },
   }
 } satisfies NextAuthOptions
 

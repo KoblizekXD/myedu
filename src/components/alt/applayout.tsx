@@ -64,7 +64,6 @@ export default function AppLay({session, children} : LayoutProps) {
             <div className="rounded w-[200px] bg-[#161718] absolute border zobak border-[#313537]">
               <NavItem onClick={() =>
                 signOut({ callbackUrl: '/login'})
-                
                 } icon="power_settings_new">Odhlásit se</NavItem>
               <NavItem href="/app/account" icon="account_circle">Účet</NavItem>
             </div>

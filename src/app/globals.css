@@ -64,4 +64,19 @@
 
 .zobak {
     transform: translate(5%, -100%);
+    animation: fade 0.5s ease-out;
+}
+
+.uhh:hover {
+    filter: brightness(5);
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }

@@ -18,15 +18,17 @@ export default function NavItem({ href, onClick, children, className, materialCl
       {
         href ? (
           <>
-            <Link onClick={onClick} href={href} className={`${selected ? "border-r-sky-300 border-r-2 rounded" : ""} ${className} py-4 text-md flex gap-2 pl-2 text-white w-full`}>
-            <span className={`material-icons ${materialClass}`}>{icon}</span>
-            {children}
+            <Link className={`flex ${className} py-4 text-md flex gap-2 pl-2 text-white w-full`} onClick={onClick} href={href}>
+              <span className={`material-icons ${materialClass}`}>{icon}</span>
+              {children}
+              { selected && <div className={'h-[auto] border border-red-400 rounded ml-auto'}></div>}
             </Link>
           </>
         ) : (
-          <div onClick={onClick} className={`${selected ? "border-r-sky-300 border-r-2 rounded" : ""} ${className} py-4 text-md cursor-pointer select-none flex gap-2 pl-2 text-white w-full`}>
+          <div onClick={onClick} className={`${className} py-4 text-md cursor-pointer select-none flex gap-2 pl-2 text-white w-full`}>
             <span className={`material-icons ${materialClass}`}>{icon}</span>
             {children}
+            { selected && <div className={'h-[auto] border border-red-400 rounded ml-auto'}></div>}
           </div>
         )
       }

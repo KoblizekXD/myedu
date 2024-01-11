@@ -1,6 +1,6 @@
 
 export default function Separator() {
   return (
-    <div className={'w-[90%] border-t rounded'} />
+    <div className={'w-[90%] border-t-2 rounded ml-[5%]'} />
   )
 }

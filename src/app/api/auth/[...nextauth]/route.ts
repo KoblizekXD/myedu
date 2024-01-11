@@ -1,5 +1,5 @@
 import { hash } from "@/util/util";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, UserType } from "@prisma/client";
 import { randomBytes, randomUUID } from "crypto";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -37,9 +37,6 @@ export const config = {
     },
   },
   callbacks: {
-    async jwt({ token, account, user }) {
-      return token
-    },
     async session({session, token, user}) {
       return session
     },

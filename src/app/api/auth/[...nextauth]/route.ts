@@ -38,7 +38,8 @@ export const config = {
   },
   callbacks: {
     async session({session, token, user}) {
-      return session
+      const ses = session as any
+      return ses
     },
   }
 } satisfies NextAuthOptions

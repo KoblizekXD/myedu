@@ -1,10 +1,8 @@
-import { hash } from "@/util/util";
+import prisma, { hash } from "@/util/util";
 import { PrismaClient, UserType } from "@prisma/client";
 import { randomBytes, randomUUID } from "crypto";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-
-const prisma = new PrismaClient();
 
 export const config = {
   providers: [
@@ -15,12 +13,13 @@ export const config = {
         password: { label: "Heslo", type: "password" },
       },
       authorize: async (credentials, req) => {
-        return await prisma.user.findUnique({
+        const data = await prisma.user.findUnique({
           where: {
             email: credentials?.identity,
             password: hash(credentials?.password as string)
           }
         })
+        return data
       }
     }),
   ],
@@ -37,10 +36,26 @@ export const config = {
     },
   },
   callbacks: {
-    async session({session, token, user}) {
-      const ses = session as any
-      return ses
-    },
+    async session({session}) {
+      const user = await prisma.user.findUnique({
+        where: {
+          email: session.user.email
+        },
+        include: {
+          student: true,
+          teacher: true,
+          admin: true
+        }
+      })
+      session.user = {
+        ...session.user,
+        type: user?.type as UserType,
+        teacher: user?.teacher,
+        student: user?.student,
+        admin: user?.admin
+      }
+      return session
+    }
   }
 } satisfies NextAuthOptions
 

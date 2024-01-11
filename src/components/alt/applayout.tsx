@@ -5,10 +5,22 @@ import NavItem from "@/components/app/navitem";
 import { signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import Separator from "../app/separator";
 
 interface LayoutProps {
   session: any;
   children: React.ReactNode;
+}
+
+function AdminOnlyFields() {
+  return (
+    <>
+      <Separator />
+      <NavItem href="/app/admin" icon="admin_panel_settings">
+        Nastavení Administrátora
+      </NavItem>
+    </>
+  )
 }
 
 export default function AppLay({session, children} : LayoutProps) {
@@ -59,6 +71,7 @@ export default function AppLay({session, children} : LayoutProps) {
         >
           Soubory
         </NavItem>
+        {session.user.admin && <AdminOnlyFields />}
         <div className="mt-auto">
           {profileOpen && (
             <div className="rounded w-[200px] bg-[#161718] absolute border zobak border-[#313537]">

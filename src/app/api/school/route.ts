@@ -1,12 +1,10 @@
 "use server";
 
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient, UserType } from "@prisma/client";
+import { UserType } from "@prisma/client";
 
 import crypto from "crypto";
 import { z } from "zod";
-
-const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
   const domain = req.nextUrl.searchParams.get("domain");

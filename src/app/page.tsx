@@ -47,10 +47,10 @@ export default async function Home() {
                 <Button href="/app">Přejít do aplikace</Button>
               </div>
             ) : (
-              <div>
+              <>
                 <Button href="/login">Už mám účet!</Button>
                 <Button href="/register">Hledám řešení pro naší školu</Button>
-              </div>
+              </>
             )}
           </div>
         </div>

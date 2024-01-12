@@ -85,7 +85,7 @@ export default function AppLay({session, children} : LayoutProps) {
             onClick={() => setProfileOpen(!profileOpen)}
             icon="person"
             selected={select("/app/profile")}
-            >{session.user.name}</NavItem>
+            >{session.user.name} ({session.user.type})</NavItem>
           <NavItem
             href="/app/options"
             icon="settings"

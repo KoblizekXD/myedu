@@ -23,6 +23,9 @@ export default function TimetableSmall({periods}: TimetableSmallProps) {
     [1, 2, 3, 4, 5, 6],
     [1, 2, 3, 4, 5, 6]
   ]
+  const findSubject = (i: number, j: number) => {
+    return periods?.find(p => p.day == dny[i] && p.periods.includes(j + 1))?.subject
+  }
   const dny: string[] = ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek']
 
   return (
@@ -43,10 +46,10 @@ export default function TimetableSmall({periods}: TimetableSmallProps) {
           <tr key={i}>
             <td>{dny[i]}</td>
             {day.map((period, j) => (
-              <td key={j}>
+              <td className={`${!findSubject(i, j) && /*Apply style if needed*/ ''}`} key={j}>
                 <div>
                   {
-                    periods?.find(p => p.day == dny[i] && p.periods.includes(j + 1))?.subject
+                    findSubject(i, j)
                   }
                 </div>
               </td>

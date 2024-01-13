@@ -15,7 +15,7 @@ export default async function Home() {
         </GridItem>
         <GridItem className={'border-opacity-70 border-red-300'} title="Známky"> </GridItem>
         <GridItem insideClass={'flex justify-center items-center'} className={'border-opacity-70 border-sky-300'} title="Rozvrh">
-          <TimetableSmall periods={[new TimetablePeriod('Pondělí', [1, 2], "RVP")]}></TimetableSmall>
+          <TimetableSmall periods={[new TimetablePeriod('Úterý', [1], "RVP"), new TimetablePeriod('Pondělí', [2], "A")]}></TimetableSmall>
         </GridItem>
         <GridItem className={'border-opacity-70 border-pink-300'} title="Stream"> </GridItem>
       </div>

@@ -23,6 +23,17 @@ function AdminOnlyFields() {
   )
 }
 
+function TeacherOnlyFields() {
+  return (
+    <>
+      <Separator />
+      <NavItem href="/app/teacher" icon="admin_panel_settings">
+        Učitel
+      </NavItem>
+    </>
+  )
+}
+
 export default function AppLay({session, children} : LayoutProps) {
   const [profileOpen, setProfileOpen] = useState(false);
   const pathname = usePathname();
@@ -71,6 +82,7 @@ export default function AppLay({session, children} : LayoutProps) {
         >
           Soubory
         </NavItem>
+        {(session.user.teacher || session.user.admin) && <TeacherOnlyFields />}
         {session.user.admin && <AdminOnlyFields />}
         <div className="mt-auto">
           {profileOpen && (

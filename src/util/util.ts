@@ -6,7 +6,7 @@ export function hash(pass: string) {
     return crypto.createHash('sha256').update(pass).digest('hex');
 }
 
-type Permission = "admin" | "teacher" | "student";
+export type Permission = "admin" | "teacher" | "student";
 
 /**
  * Checks if the user has the required permissions to access the endpoint/path
@@ -18,11 +18,17 @@ type Permission = "admin" | "teacher" | "student";
 export function checkPermissions(permissions: Permission, session: any): boolean {
   if (permissions === 'student') {
     return true
-  } else if (permissions === 'teacher' && session.user.teacher || session.user.admin) {
+  } else if (permissions === 'teacher' && (session.user.teacher != null || session.user.admin != null)) {
     return true
   } else if (permissions === 'admin' && session.user.admin) {
     return true
   } else return false
+}
+
+export function translateError(id: string): string {
+  if (id == 'unauthorized') {
+    return 'K této stránce nemáte přístup'
+  } else return id
 }
 
 export async function fetchSession() {

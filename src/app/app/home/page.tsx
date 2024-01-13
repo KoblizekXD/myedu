@@ -1,8 +1,10 @@
 import GridItem from "@/components/app/griditem"
 import TimetableSmall, { TimetablePeriod } from "@/components/app/timetable"
-import { fetchSession } from "@/util/util"
+import TopError from "@/components/toperror"
+import { fetchSession, translateError } from "@/util/util"
 
-export default async function Home() {
+export default async function Home({searchParams}: any) {
+  const error = searchParams.error
   const session = await fetchSession()
   const school = await prisma.school.findUnique({
     where: {
@@ -11,6 +13,7 @@ export default async function Home() {
   })
   return (
     <main className="mx-8 flex gap-2 flex-col my-8 w-full">
+      {error && <TopError error={translateError(error)}/>}
       <h1 className={'font-extrabold text-4xl'}>Vítejte zpět!</h1>
       <h2 className={'text-xl'}>Přihlášen jako {session?.user?.name}({school?.name})</h2>
       <div className='w-full gap-4 grid-cols-2 grow grid'>

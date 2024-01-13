@@ -12,22 +12,26 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-function AdminOnlyFields() {
+interface OnlyProps {
+  selected: boolean;
+}
+
+function AdminOnlyFields({selected}: OnlyProps) {
   return (
     <>
       <Separator />
-      <NavItem href="/app/admin" icon="admin_panel_settings">
+      <NavItem href="/app/admin" selected={selected} icon="admin_panel_settings">
         Nastavení Administrátora
       </NavItem>
     </>
   )
 }
 
-function TeacherOnlyFields() {
+function TeacherOnlyFields({selected}: OnlyProps) {
   return (
     <>
       <Separator />
-      <NavItem href="/app/teacher" icon="admin_panel_settings">
+      <NavItem href="/app/teacher" selected={selected} icon="admin_panel_settings">
         Učitel
       </NavItem>
     </>
@@ -82,8 +86,8 @@ export default function AppLay({session, children} : LayoutProps) {
         >
           Soubory
         </NavItem>
-        {(session.user.teacher || session.user.admin) && <TeacherOnlyFields />}
-        {session.user.admin && <AdminOnlyFields />}
+        {(session.user.teacher || session.user.admin) && <TeacherOnlyFields selected={select('/app/teacher')} />}
+        {session.user.admin && <AdminOnlyFields selected={select('/app/teacher/')} />}
         <div className="mt-auto">
           {profileOpen && (
             <div className="rounded w-[200px] bg-[#161718] absolute border zobak border-[#313537]">

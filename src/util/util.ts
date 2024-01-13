@@ -24,6 +24,14 @@ export function checkPermissions(permissions: Permission, session: any): boolean
     return true
   } else return false
 }
+/**
+ * Gets a random element from the array
+ * @param arr Array
+ * @returns Random element from the array
+ */
+export function rand(arr: any[]): any {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
 
 export function translateError(id: string): string {
   if (id == 'unauthorized') {

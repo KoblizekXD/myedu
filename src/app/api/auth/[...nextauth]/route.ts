@@ -49,6 +49,7 @@ export const config = {
       })
       session.user = {
         ...session.user,
+        id: user?.id,
         type: user?.type as UserType,
         teacher: user?.teacher,
         student: user?.student,

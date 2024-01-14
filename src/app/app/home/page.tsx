@@ -23,7 +23,7 @@ export default async function Home({searchParams}: any) {
         </GridItem>
         <GridItem className={'border-opacity-70 border-red-300'} title="Známky"> </GridItem>
         <GridItem insideClass={'flex justify-center items-center'} className={'border-opacity-70 border-sky-300'} title="Rozvrh">
-          <TimetableSmall periods={[new TimetablePeriod('Úterý', [1], "M"), new TimetablePeriod('Pondělí', [2], "CJ")]}></TimetableSmall>
+          <TimetableSmall periods={[new TimetablePeriod('Úterý', [1], "Cocks"), new TimetablePeriod('Pondělí', [2], "Sucking")]}></TimetableSmall>
         </GridItem>
         <GridItem className={'border-opacity-70 border-pink-300'} title="Stream"> </GridItem>
       </div>

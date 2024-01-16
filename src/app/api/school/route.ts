@@ -77,14 +77,14 @@ export async function PUT(req: NextApiRequest, res: NextApiResponse) {
   if (!checkPermissions('admin', session)) {
     res.status(403).json({ error: 'Unauthorized' })
   } else {
+    const data: any = {}
+    if (req.body.email) data['domain'] = req.body.domain
+    if (req.body.name) data['name'] = req.body.name
     await prisma.school.update({
       where: {
         id: session?.user.admin.schoolId
       },
-      data: {
-        name: req.body.name,
-        domain: req.body.domain
-      }
+      data: data
     })
   }
 }

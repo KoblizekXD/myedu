@@ -1,4 +1,4 @@
-import { config } from "@/app/api/auth/[...nextauth]/route";
+import { authconfig } from "@/app/api/auth/[...nextauth]/route";
 import crypto from "crypto";
 import { getServerSession } from "next-auth";
 
@@ -40,7 +40,7 @@ export function translateError(id: string): string {
 }
 
 export async function fetchSession() {
-    return await getServerSession(config)
+    return await getServerSession(authconfig)
 }
 
 import { PrismaClient } from "@prisma/client"

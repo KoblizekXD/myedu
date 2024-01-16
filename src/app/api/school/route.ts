@@ -7,7 +7,7 @@ import crypto from "crypto";
 import { z } from "zod";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
-import { config } from "../auth/[...nextauth]/route";
+import { authconfig } from "../auth/[...nextauth]/route";
 import { checkPermissions } from "@/util/util";
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getServerSession(req, res, config)
+  const session = await getServerSession(authconfig)
   if (!checkPermissions('admin', session)) {
     res.status(403).json({ error: 'Unauthorized' })
   } else {

@@ -1,9 +1,9 @@
 import { getServerSession } from "next-auth";
-import { config } from "../api/auth/[...nextauth]/route";
+import { authconfig } from "../api/auth/[...nextauth]/route";
 import AppLay from "@/components/alt/applayout";
 
 export default async function AppLayout({children}: {children: React.ReactNode}) {
-  const session = await getServerSession(config)
+  const session = await getServerSession(authconfig)
   const signOut = async () => {
     await signOut()
   }

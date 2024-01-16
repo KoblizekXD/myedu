@@ -87,7 +87,7 @@ export default function AppLay({session, children} : LayoutProps) {
           Soubory
         </NavItem>
         {(session.user.teacher || session.user.admin) && <TeacherOnlyFields selected={select('/app/teacher')} />}
-        {session.user.admin && <AdminOnlyFields selected={select('/app/teacher/')} />}
+        {session.user.admin && <AdminOnlyFields selected={select('/app/admin')} />}
         <div className="mt-auto">
           {profileOpen && (
             <div className="rounded w-[200px] bg-[#161718] absolute border zobak border-[#313537]">

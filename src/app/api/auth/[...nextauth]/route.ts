@@ -4,7 +4,7 @@ import { randomBytes, randomUUID } from "crypto";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-export const config = {
+export const authconfig = {
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -60,6 +60,6 @@ export const config = {
   }
 } satisfies NextAuthOptions
 
-const handler = NextAuth(config);
+const handler = NextAuth(authconfig);
 
 export { handler as GET, handler as POST };

@@ -6,7 +6,6 @@ export function GridItem({ title, icon, href }: { title: string, icon?: string, 
   const router = useRouter()
   return (
     <div onClick={() => {
-      console.log(href)
       if (href) router.push(href)
     }} className={'h-[15vh] cursor-pointer select-none w-[10rem] items-center flex flex-col bg-[#1a1c1d] rounded-md'}>
       <div className={'h-[50%] flex items-center justify-center'}>

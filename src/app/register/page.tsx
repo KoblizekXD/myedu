@@ -34,7 +34,6 @@ export default function Register() {
         const res = await fetch(`/api/school?domain=${domain}`, {
           method: "GET",
         });
-        console.log(res.status);
         if (res.status == 200) {
           setError("Doména je již registrována!");
         } else {

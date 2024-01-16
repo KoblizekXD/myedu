@@ -11,7 +11,6 @@ export default async function Home({searchParams}: any) {
       id: (session?.user.admin && session?.user.admin.schoolId) || (session?.user.teacher && session?.user.teacher.schoolId) || (session?.user.student && session?.user.student.schoolId)
     }
   })
-  console.log(session)
   return (
     <main className="mx-8 flex gap-2 flex-col my-8 w-full">
       {error && <TopError error={translateError(error)}/>}

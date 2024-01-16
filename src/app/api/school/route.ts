@@ -86,5 +86,6 @@ export async function PUT(req: NextApiRequest, res: NextApiResponse) {
       },
       data: data
     })
+    res.status(200)
   }
 }

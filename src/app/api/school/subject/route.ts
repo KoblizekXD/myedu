@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
-import { config } from "../../auth/[...nextauth]/route";
 import { z } from "zod";
+import { authconfig } from "../../auth/[...nextauth]/route";
 
 const CreateSubjectBody = z.object({
   name: z.string(), // Subject name
@@ -10,7 +10,7 @@ const CreateSubjectBody = z.object({
 })
 
 export default async function POST(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getServerSession(req, res, config);
+  const session = await getServerSession(authconfig);
   
   if (session) {
     if (CreateSubjectBody.safeParse(req.body).success) {

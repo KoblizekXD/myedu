@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 export default function SchoolEdit({school}: {school: any}) {
+  console.log(school)
   const [info, setInfo] = useState("")
   const [domain, setDomain] = useState('')
   const [name, setName] = useState('')
@@ -14,7 +15,6 @@ export default function SchoolEdit({school}: {school: any}) {
   const handleSubmit = async (e: FormEvent) => {
       e.preventDefault()
       setInfo("Ukládám...")
-      const changing: any = {}
       const res = await fetch('/api/school', {
         method: 'PUT',
         body: JSON.stringify({
@@ -39,9 +39,9 @@ export default function SchoolEdit({school}: {school: any}) {
       <div className={'grow flex justify-center items-center w-full'}>
           <form onSubmit={handleSubmit} className={'w-1/2 border flex flex-col gap-2 border-[#1e1e1e] rounded px-4 py-4'}>
           <h2 className={'text-xl ml-px font-semibold'}>Název Školy</h2>
-          <TextInput className="w-full" value={school?.name} name="school" placeholder="Nový název"></TextInput>
+          <TextInput onChange={(e) => setName(e.target.value)} className="w-full" value={school?.name} name="school" placeholder="Nový název"></TextInput>
           <h2 className={'text-xl ml-px font-semibold'}>Doména(email se nemění)</h2>
-          <TextInput className="w-full" value={school?.domain} name="school" placeholder="Nová doména"></TextInput>
+          <TextInput onChange={(e) => setDomain(e.target.value)} className="w-full" value={school?.domain} name="school" placeholder="Nová doména"></TextInput>
           <h2 className={'text-xl ml-px font-semibold'}>Logo</h2>
           <input className="border rounded text-center border-[#1d2537] p-4" type='file'></input>
           <button

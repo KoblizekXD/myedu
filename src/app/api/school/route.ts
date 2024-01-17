@@ -72,20 +72,21 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function PUT(req: NextApiRequest, res: NextApiResponse) {
+export async function PUT(req: NextRequest) {
   const session = await getServerSession(authconfig)
   if (!checkPermissions('admin', session)) {
-    res.status(403).json({ error: 'Unauthorized' })
+    return NextResponse.json({error: 'Unauthorized'}, {status: 200})
   } else {
+    const body = await req.json()
     const data: any = {}
-    if (req.body.email) data['domain'] = req.body.domain
-    if (req.body.name) data['name'] = req.body.name
+    if (body.email) data['domain'] = body.domain
+    if (body.name) data['name'] = body.name
     await prisma.school.update({
       where: {
         id: session?.user.admin.schoolId
       },
       data: data
     })
-    res.status(200)
+    return NextResponse.json({}, {status: 200})
   }
 }

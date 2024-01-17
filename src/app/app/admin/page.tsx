@@ -15,7 +15,7 @@ export default async function Admin() {
       </h2>
       <div className={'w-full flex flex-col gap-4 justify-center items-center grow'}>
         <div className={'flex gap-4'}>
-          <GridItem title="Třídy" icon="class" />
+          <GridItem href="/app/admin/classes" title="Třídy" icon="class" />
           <GridItem href="/app/admin/school" title="Nastavení školy" icon="school" />
         </div>
         <div className={'flex gap-4'}>

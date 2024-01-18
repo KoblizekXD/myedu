@@ -39,6 +39,21 @@ export function translateError(id: string): string {
   } else return id
 }
 
+export function exclude<User extends object, Key extends keyof User>(
+  user: User,
+  keys: Key[]
+): Omit<User, Key> {
+  const result: Partial<User> = {};
+
+  for (const [key, value] of Object.entries(user ?? {})) {
+    if (!keys.includes(key as Key)) {
+      result[key] = value;
+    }
+  }
+
+  return result as Omit<User, Key>;
+}
+
 export async function fetchSession() {
     return await getServerSession(authconfig)
 }

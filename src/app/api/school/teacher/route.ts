@@ -28,8 +28,8 @@ export async function GET(req: NextRequest) {
         x.user = exclude(x?.user, ['password']) as User
       } else NextResponse.json({ error: 'Object not found' }, { status: 404 })
     } else {
-      const x = await prisma.user.findMany({
-        where: {}
+      return await prisma.teacher.findMany({
+        where: {},
       })
     }
   } else {

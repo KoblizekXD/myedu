@@ -1,6 +1,7 @@
 import Link from "next/link";
 import "material-icons/iconfont/material-icons.css";
 import TextInput from "@/components/textinput";
+import SelectionBox from "@/components/selectionbox";
 
 export default function NewClass() {
   return (
@@ -13,9 +14,12 @@ export default function NewClass() {
         Zpět
       </Link>
       <div className={'grow flex justify-center'}>
-        <form className={'w-full flex items-center flex-col'}>
+        <form className={'w-full flex gap-4 items-center flex-col'}>
           <h2 className={'text-xl font-semibold'}>Jméno nové třídy</h2>
           <TextInput name="class_name" placeholder='Jméno třídy' className={'w-1/2'} />
+          <SelectionBox>
+            Yepasdwdawdwa
+          </SelectionBox>
         </form>
       </div>
     </main>

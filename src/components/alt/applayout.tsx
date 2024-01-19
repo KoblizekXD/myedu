@@ -60,8 +60,7 @@ export default function AppLay({session, children} : LayoutProps) {
         <NavItem
           href="/app/timetable"
           selected={select("/app/timetable")}
-          icon="view_list"
-          materialClass="material-symbols-outlined"
+          icon="table_rows"
         >
           Rozvrh
         </NavItem>

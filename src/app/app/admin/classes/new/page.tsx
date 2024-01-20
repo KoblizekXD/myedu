@@ -17,7 +17,7 @@ export default function NewClass() {
         <form className={'w-full flex gap-4 items-center flex-col'}>
           <h2 className={'text-xl font-semibold'}>Jméno nové třídy</h2>
           <TextInput name="class_name" placeholder='Jméno třídy' className={'w-1/2'} />
-          <SelectionBox>
+          <SelectionBox items={['omg']}>
             Yepasdwdawdwa
           </SelectionBox>
         </form>

@@ -16,10 +16,15 @@ export default function NewClass() {
       <div className={'grow flex justify-center'}>
         <form className={'w-full flex gap-4 items-center flex-col'}>
           <h2 className={'text-xl font-semibold'}>Jméno nové třídy</h2>
-          <TextInput name="class_name" placeholder='Jméno třídy' className={'w-1/2'} />
-          <SelectionBox items={['omg']}>
-            Yepasdwdawdwa
-          </SelectionBox>
+          <TextInput name="class_name" placeholder='Jméno třídy' className={'w-1/6'} />
+          <h2 className={'text-xl font-semibold'}>Zvolte třídního učitele</h2>
+          <SelectionBox text={'Zvolit učitele'} items={['awdwwwwwwwwwwwwwwwwwww', 'wedakiwdjwai']} />
+          <button
+              type="submit"
+              className={`disabled:opacity-50 bg-[#0066ff] border-[0] w-1/6 rounded text-white text-center py-3 px-3`}
+            >
+              Vytvořit třídu
+            </button>
         </form>
       </div>
     </main>

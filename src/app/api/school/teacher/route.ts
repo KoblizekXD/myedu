@@ -26,14 +26,16 @@ export async function GET(req: NextRequest) {
       })
       if (x) {
         x.user = exclude(x?.user, ['password']) as User
-      } else NextResponse.json({ error: 'Object not found' }, { status: 404 })
+      } else return NextResponse.json({ error: 'Object not found' }, { status: 404 })
     } else {
-      return await prisma.teacher.findMany({
-        where: {},
-      })
+      const x = await prisma.user.findMany()
+      console.log(x)
+      if (x) {
+        return x
+      } else return NextResponse.json({ error: 'Object not found' }, { status: 404 })
     }
   } else {
-    NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 }
 

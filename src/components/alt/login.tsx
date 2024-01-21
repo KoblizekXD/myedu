@@ -51,7 +51,7 @@ export default function LogIn() {
         {error != "" ? <TopError error={error} /> : null}
         {info != "" ? <TopInfo message={info} /> : null}
         <form
-          onSubmit={handleSignIn}
+          onSubmit={(e) => handleSignIn(e)}
           className={
             "flex flex-col gap-2 w-1/5 h-1/3 bg-[#181a1f] shadow-xl border border-[#1d2537] rounded *:ml-4 *:mr-4"
           }

@@ -55,7 +55,7 @@ export function exclude<User extends object, Key extends keyof User>(
 }
 
 export async function fetchSession() {
-    return await getServerSession(authconfig)
+  return await getServerSession(authconfig)
 }
 
 import { PrismaClient } from "@prisma/client"

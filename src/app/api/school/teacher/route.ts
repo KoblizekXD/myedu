@@ -1,7 +1,10 @@
 import { checkPermissions, exclude, fetchSession } from "@/util/util";
 import { User } from "@prisma/client";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { authconfig } from "../../auth/[...nextauth]/route";
+import { getToken } from "next-auth/jwt";
 
 const CreateTeacherBody = z.object({
   name: z.string(),
@@ -11,7 +14,7 @@ const CreateTeacherBody = z.object({
 
 export async function GET(req: NextRequest) {
   const email = req.nextUrl.searchParams.get('email')
-  const session = await fetchSession()
+  const session = await getServerSession(authconfig)
   if (session) {
     if (email) {
       const x = await prisma.user.findUnique({
@@ -26,12 +29,12 @@ export async function GET(req: NextRequest) {
       })
       if (x) {
         x.user = exclude(x?.user, ['password']) as User
+        return x
       } else return NextResponse.json({ error: 'Object not found' }, { status: 404 })
     } else {
       const x = await prisma.user.findMany()
-      console.log(x)
       if (x) {
-        return x
+        return NextResponse.json(x)
       } else return NextResponse.json({ error: 'Object not found' }, { status: 404 })
     }
   } else {

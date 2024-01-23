@@ -1,8 +1,17 @@
+import { fetchSession } from "@/util/util";
+import { getSchoolId } from "../school/page";
+import ClientTeachersPage from "@/components/alt/clientteachers";
 
-export default function TeachersPage() {
-  return (
-    <div>
-      <h1>Učitelé</h1>
-    </div>
-  );
+export default async function TeachersPage() {
+  const session = await fetchSession()
+  const teachers = await prisma.school.findUnique({
+    where: {
+      id: getSchoolId(session?.user)
+    }
+  }).teachers({
+    include: {
+      user: true
+    }
+  })
+  return <ClientTeachersPage session={session} teachers={teachers} />
 }

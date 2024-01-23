@@ -20,7 +20,7 @@ export default async function Admin() {
         </div>
         <div className={'flex gap-4'}>
           <GridItem title="Zapsat Předmět" icon="playlist_add_check" />
-          <GridItem title="Učitelé" icon="person" />
+          <GridItem href='/app/admin/teachers' title="Učitelé" icon="person" />
         </div>
       </div>
     </main>

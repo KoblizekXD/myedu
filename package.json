@@ -16,6 +16,7 @@
     "next": "14.0.4",
     "next-auth": "^4.24.5",
     "next-easy-middlewares": "^1.0.5",
+    "nodemailer": "^6.9.8",
     "react": "^18",
     "react-dom": "^18",
     "zod": "^3.22.4"

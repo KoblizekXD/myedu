@@ -92,7 +92,7 @@ export default function ClientTeachersPage({
           />
           <Button
             className={"w-full bg-blue-600 border-0"}
-            href="/app/admin/classes/new"
+            href="/app/admin/teachers/new"
           >
             Nový profil učitele
           </Button>

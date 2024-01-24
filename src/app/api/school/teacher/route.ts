@@ -1,4 +1,4 @@
-import { checkPermissions, exclude, fetchSession } from "@/util/util";
+import { checkPermissions, exclude, fetchSession, generatePassword } from "@/util/util";
 import { User } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -9,7 +9,7 @@ import { getToken } from "next-auth/jwt";
 const CreateTeacherBody = z.object({
   name: z.string(),
   email: z.string(),
-  password: z.string()
+  password: z.string().optional()
 })
 
 export async function GET(req: NextRequest) {
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
         data: {
           name: body.name,
           email: body.email,
-          password: body.password,
+          password: body.password || generatePassword(),
           type: 'Teacher',
           teacher: {
             create: {

@@ -39,6 +39,16 @@ export function translateError(id: string): string {
   } else return id
 }
 
+export function generatePassword() {
+  var length = 8,
+      charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+      retVal = "";
+  for (var i = 0, n = charset.length; i < length; ++i) {
+      retVal += charset.charAt(Math.floor(Math.random() * n));
+  }
+  return retVal;
+}
+
 export function exclude<User extends object, Key extends keyof User>(
   user: User,
   keys: Key[]

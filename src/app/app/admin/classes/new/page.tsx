@@ -11,8 +11,6 @@ export default async function CreateClass() {
   }
 
   const body = await (await fetch(process.env.NEXTAUTH_URL + '/api/school/teacher', {method: 'GET', headers: new Headers(headers())})).json()
- 
-  return <NewClass teacherMap={new Map([
-    ["wdawf", "a"], ["awdkjeaswhdfueisahdf", "b"]
-  ])} />
+  const x: Iterable<readonly [string, string]> = (body as Array<object>).map(e => [e['name'], e['id']])
+  return <NewClass teacherMap={new Map(x)} />
 }

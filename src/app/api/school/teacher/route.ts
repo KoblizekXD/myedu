@@ -33,7 +33,13 @@ export async function GET(req: NextRequest) {
         return x
       } else return NextResponse.json({ error: 'Object not found' }, { status: 404 })
     } else {
-      const x = await prisma.user.findMany()
+      const x = await prisma.user.findMany({
+        where: {
+          teacher: {
+            schoolId: session.user.admin.schoolId
+          }
+        }
+      })
       if (x) {
         return NextResponse.json(x)
       } else return NextResponse.json({ error: 'Object not found' }, { status: 404 })

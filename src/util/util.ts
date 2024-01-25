@@ -64,6 +64,10 @@ export function exclude<User extends object, Key extends keyof User>(
   return result as Omit<User, Key>;
 }
 
+export function getDomainFromEmail(email: string) {
+  return email.split('@')[1]
+}
+
 export async function fetchSession() {
   return await getServerSession(authconfig)
 }

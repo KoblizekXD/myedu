@@ -1,10 +1,11 @@
-import { checkPermissions, exclude, fetchSession, generatePassword } from "@/util/util";
+import { checkPermissions, exclude, fetchSession, generatePassword, getDomainFromEmail } from "@/util/util";
 import { User } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { authconfig } from "../../auth/[...nextauth]/route";
 import { getToken } from "next-auth/jwt";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 const CreateTeacherBody = z.object({
   name: z.string(),
@@ -47,24 +48,33 @@ export async function POST(req: NextRequest) {
 
   if (session && checkPermissions('admin', session)) {
     const body = await req.json()
-    if (CreateTeacherBody.safeParse(body).success) {
-      await prisma.user.create({
-        data: {
-          name: body.name,
-          email: body.email,
-          password: body.password || generatePassword(),
-          type: 'Teacher',
-          teacher: {
-            create: {
-              school: {
-                connect: {
-                  id: session.user.schoolId
+    if (CreateTeacherBody.safeParse(body).success && getDomainFromEmail(body.email) == getDomainFromEmail(session.user.email)) {
+      try {
+        await prisma.user.create({
+          data: {
+            name: body.name,
+            email: body.email,
+            password: body.password || generatePassword(),
+            type: 'Teacher',
+            teacher: {
+              create: {
+                school: {
+                  connect: {
+                    id: session.user.admin.schoolId
+                  }
                 }
               }
             }
           }
+        })
+      } catch (e: any) {
+        if (e instanceof PrismaClientKnownRequestError) {
+          if (e.code === 'P2002') {
+            return NextResponse.json({ error: 'Email je již obsazený' }, { status: 400 })
+          }
         }
-      })
+      }
+      return NextResponse.json({ success: true }, { status: 200 })
     } else {
       NextResponse.json({ error: 'Invalid body'}, { status: 400 })
     }

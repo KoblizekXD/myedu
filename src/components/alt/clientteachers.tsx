@@ -38,10 +38,10 @@ function ClassListing({ teachers }: { teachers: teachers }) {
                 <h3 className={"text-xl font-semibold"}>{c.user.name}</h3>
                 <h3
                   className={
-                    "text-xl text-center w-full self-center font-semibold"
+                    "text-xl text-center grow self-center font-semibold"
                   }
                 >
-                  {c.user.name}
+                  {c.user.email}
                 </h3>
                 <span className="material-icons ml-auto">chevron_right</span>
               </div>

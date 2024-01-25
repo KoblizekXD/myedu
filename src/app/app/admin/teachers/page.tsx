@@ -13,5 +13,6 @@ export default async function TeachersPage() {
       user: true
     }
   })
+
   return <ClientTeachersPage session={session} teachers={teachers} />
 }

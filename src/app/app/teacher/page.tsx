@@ -1,7 +1,7 @@
 import { checkPermissions, fetchSession, rand } from "@/util/util"
 import { redirect } from "next/navigation"
 
-import "material-icons/iconfont/material-icons.css";
+import 'material-symbols';
 import { GridItem } from "@/components/app/select/griditem";
 
 export default async function Teacher() {
@@ -25,6 +25,9 @@ export default async function Teacher() {
           <GridItem title="Zapsat Předmět" icon="playlist_add_check" />
           <GridItem title="Známky" icon="checklist" />
           <GridItem title="Studenti" icon="person" />
+        </div>
+        <div>
+        <GridItem title="Akce" icon="event" />
         </div>
       </div>
     </main>

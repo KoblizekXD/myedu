@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
-import 'material-icons/iconfont/material-icons.css'
+import 'material-symbols';
 
 interface NavItemProps {
   href?: string;
@@ -19,8 +19,8 @@ export default function NavItem({ href, onClick, children, className, materialCl
         href ? (
           <>
             <Link className={`flex ${className} py-4 text-md flex gap-2 pl-2 text-white w-full`} onClick={onClick} href={href}>
-              <span className={`material-icons ${materialClass}`}>{icon}</span>
-              {children}
+              <span className={`material-symbols-outlined ${materialClass}`}>{icon}</span>
+              <div className={'font-semibold'}>{children}</div>
               { selected && <div className={'h-[auto] border border-red-400 rounded ml-auto'}></div>}
             </Link>
           </>

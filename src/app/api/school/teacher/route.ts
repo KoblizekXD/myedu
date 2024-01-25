@@ -1,4 +1,4 @@
-import { checkPermissions, exclude, fetchSession, generatePassword, getDomainFromEmail } from "@/util/util";
+import { checkPermissions, exclude, fetchSession, generatePassword, getDomainFromEmail, hash } from "@/util/util";
 import { User } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
           data: {
             name: body.name,
             email: body.email,
-            password: body.password || generatePassword(),
+            password: hash(body.password || generatePassword()),
             type: 'Teacher',
             teacher: {
               create: {

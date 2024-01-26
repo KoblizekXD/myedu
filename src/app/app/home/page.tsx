@@ -12,7 +12,7 @@ export default async function Home({searchParams}: any) {
     }
   })
   return (
-    <main className="mx-8 flex gap-2 flex-col my-8 w-full">
+    <main className="mx-8 flex gap-2 flex-col my-8 w-full grow">
       {error && <TopError error={translateError(error)}/>}
       <h1 className={'font-extrabold text-4xl'}>Vítejte zpět!</h1>
       <h2 className={'text-xl'}>Přihlášen jako {session?.user?.name}({school?.name})</h2>

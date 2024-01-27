@@ -8,6 +8,7 @@ import { $Enums } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { Router } from "next/router";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import ActionButton from "../actionbutton";
 
 // WHY EVEN IS IT SPLIT TO 2 TYPES???
 type teachers = ({
@@ -49,6 +50,7 @@ export default function ClientTeachersPage({
 }) {
   const [cls, setCls] = useState<teachers>(teachers);
   const [showing, setShowing] = useState<teacher>(undefined);
+  const [showEdit, setShowEdit] = useState<boolean>(false);
   const router = useRouter();
 
   function ShowTeacherInfoSubPage({ teacher }: { teacher: teacher }) {
@@ -67,6 +69,10 @@ export default function ClientTeachersPage({
           <h2 className={'text-lg'}>{teacher?.user.email}</h2>
           <h1 className={'font-bold text-2xl'}>Typ Účtu</h1>
           <h2 className={'text-lg'}>{teacher?.user.type == 'Admin' ? 'Administrátor' : 'Učitel'}</h2>
+          <ActionButton className={'w-full'} onClick={() => {
+            console.log('clicked')
+            setShowEdit(true)
+          }}>{showEdit ? 'Dokončit změnu' : 'Změnit údaje'}</ActionButton>
         </div>
       </div>
     )
@@ -119,11 +125,11 @@ export default function ClientTeachersPage({
   };
 
   return (
-    <main className={`mx-6 my-6 flex flex-col w-full`}>
-      <div className={`${showing && 'opacity-30 pointer-events-none'}`}>
+    <main className={`mx-6 my-6 flex flex-col items-stretch w-full`}>
+      <div className={`${showing && 'opacity-30 pointer-events-none'} flex h-full flex-col`}>
         <h1 className={"font-extrabold text-4xl"}>Učitelé</h1>
         <p>Seznam, umožňující úpravu a náhled jednotlivých učitelů</p>
-        <div className={"flex grow"}>
+        <div className={"flex grow h-full"}>
           <div
             className={
               "border-r mt-6 border-r-[#313537] pr-6 flex flex-col gap-4 w-[20%]"

@@ -15,7 +15,7 @@ export default function ActionButton({
 }: ActionButtonProps) {
   return (
     <button
-      onClick={onClick()}
+      onClick={() => onClick()}
       className={`${className} w-[270px] rounded border text-white text-center py-3 px-3`}
     >
       {children}

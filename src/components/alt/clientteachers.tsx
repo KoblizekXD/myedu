@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { Router } from "next/router";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import ActionButton from "../actionbutton";
+import SelectionBox from "../selectionbox";
 
 // WHY EVEN IS IT SPLIT TO 2 TYPES???
 type teachers = ({
@@ -70,9 +71,29 @@ export default function ClientTeachersPage({
           <h1 className={'font-bold text-2xl'}>Typ Účtu</h1>
           <h2 className={'text-lg'}>{teacher?.user.type == 'Admin' ? 'Administrátor' : 'Učitel'}</h2>
           <ActionButton className={'w-full'} onClick={() => {
-            console.log('clicked')
-            setShowEdit(true)
-          }}>{showEdit ? 'Dokončit změnu' : 'Změnit údaje'}</ActionButton>
+            setShowEdit(!showEdit)
+          }}>
+            {showEdit ? 
+            <div className={'flex justify-center'}>
+              <span className="material-icons mr-2">
+                check
+              </span>
+              Dokončit změnu
+            </div> : 'Změnit údaje'}
+          </ActionButton>
+          {
+            showEdit &&
+            <>
+              <h1 className={'font-bold text-2xl'}>Jméno a Příjmení</h1>
+              <TextInput name="" className={'text-lg'} value={teacher?.user.name} />
+              <h1 className={'font-bold text-2xl'}>Email</h1>
+              <TextInput name="" className={'text-lg'} value={teacher?.user.email} />
+              <h1 className={'font-bold text-2xl'}>Heslo</h1>
+              <TextInput name="" className={'text-lg'} placeholder={'Nové heslo'} />
+              <h1 className={'font-bold text-2xl'}>Typ Účtu</h1>
+              <SelectionBox text="Typ profilu" items={['Učitel', 'Administrátor']} />
+            </>
+          }
         </div>
       </div>
     )

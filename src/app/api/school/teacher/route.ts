@@ -4,7 +4,6 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { authconfig } from "../../auth/[...nextauth]/route";
-import { getToken } from "next-auth/jwt";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 const CreateTeacherBody = z.object({

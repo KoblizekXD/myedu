@@ -1,4 +1,4 @@
-import { checkPermissions, fetchSession } from "@/util/util";
+import { checkPermissions, fetchSession, hash } from "@/util/util";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -24,7 +24,7 @@ export default async function PUT(req: NextRequest) {
           data: {
             name: body.name,
             email: body.email,
-            password: body.password,
+            password: hash(body.password),
             type: body.userType
           }
         })

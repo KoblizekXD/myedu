@@ -6,10 +6,11 @@ import Button from "../button";
 import { FormEvent, useEffect, useState } from "react";
 import { $Enums } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { Router } from "next/router";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import ActionButton from "../actionbutton";
 import SelectionBox from "../selectionbox";
+import Notifier from "../notifier";
+import { headers } from "next/headers";
 
 // WHY EVEN IS IT SPLIT TO 2 TYPES???
 type teachers = ({
@@ -52,9 +53,15 @@ export default function ClientTeachersPage({
   const [cls, setCls] = useState<teachers>(teachers);
   const [showing, setShowing] = useState<teacher>(undefined);
   const [showEdit, setShowEdit] = useState<boolean>(false);
+  
   const router = useRouter();
 
   function ShowTeacherInfoSubPage({ teacher }: { teacher: teacher }) {
+    const [changedName, setChangedName] = useState<string>('');
+    const [changedEmail, setChangedEmail] = useState<string>('');
+    const [changedPassword, setChangedPassword] = useState<string>('');
+    const [changedType, setType] = useState<$Enums.UserType>(teacher?.user.type || 'Teacher');
+
     return (
       <div className={'absolute border gap-y-6 border-[#313537] rounded bg-[#161718] flex flex-col h-[90%] w-[40%] self-center p-4'}>
         <div className={'flex text-3xl'}>
@@ -70,8 +77,20 @@ export default function ClientTeachersPage({
           <h2 className={'text-lg'}>{teacher?.user.email}</h2>
           <h1 className={'font-bold text-2xl'}>Typ Účtu</h1>
           <h2 className={'text-lg'}>{teacher?.user.type == 'Admin' ? 'Administrátor' : 'Učitel'}</h2>
-          <ActionButton className={'w-full'} onClick={() => {
+          <ActionButton className={'w-full'} onClick={async () => {
             setShowEdit(!showEdit)
+            if (!showEdit) {
+              await fetch('/api/school/user', {
+                method: 'PUT',
+                body: JSON.stringify({
+                  id: teacher?.user.id,
+                  name: changedName,
+                  email: changedEmail,
+                  password: changedPassword,
+                  type: changedType
+                })
+              })
+            }
           }}>
             {showEdit ? 
             <div className={'flex justify-center'}>
@@ -85,13 +104,16 @@ export default function ClientTeachersPage({
             showEdit &&
             <>
               <h1 className={'font-bold text-2xl'}>Jméno a Příjmení</h1>
-              <TextInput name="" className={'text-lg'} value={teacher?.user.name} />
+              <TextInput onChange={(e) => setChangedName(e.target.value)} name="" className={'text-lg'} value={teacher?.user.name} />
               <h1 className={'font-bold text-2xl'}>Email</h1>
-              <TextInput name="" className={'text-lg'} value={teacher?.user.email} />
+              <TextInput onChange={(e) => setChangedEmail(e.target.value)} name="" className={'text-lg'} value={teacher?.user.email} />
               <h1 className={'font-bold text-2xl'}>Heslo</h1>
-              <TextInput name="" className={'text-lg'} placeholder={'Nové heslo'} />
+              <TextInput onChange={(e) => setChangedPassword(e.target.value)} name="" className={'text-lg'} placeholder={'Nové heslo'} />
               <h1 className={'font-bold text-2xl'}>Typ Účtu</h1>
-              <SelectionBox text="Typ profilu" items={['Učitel', 'Administrátor']} />
+              <SelectionBox onSelect={(val) => {
+                if (val === 'Učitel') setType('Teacher') 
+                else setType('Admin')
+              }} text="Typ profilu" items={['Učitel', 'Administrátor']} />
             </>
           }
         </div>

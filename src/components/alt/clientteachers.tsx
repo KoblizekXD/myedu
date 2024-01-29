@@ -9,8 +9,7 @@ import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import ActionButton from "../actionbutton";
 import SelectionBox from "../selectionbox";
-import Notifier from "../notifier";
-import { headers } from "next/headers";
+import TopInfo from "../topinfo";
 
 // WHY EVEN IS IT SPLIT TO 2 TYPES???
 type teachers = ({
@@ -53,20 +52,24 @@ export default function ClientTeachersPage({
   const [cls, setCls] = useState<teachers>(teachers);
   const [showing, setShowing] = useState<teacher>(undefined);
   const [showEdit, setShowEdit] = useState<boolean>(false);
+  const [message, setMessage] = useState<string | undefined>(undefined);
   
   const router = useRouter();
 
   function ShowTeacherInfoSubPage({ teacher }: { teacher: teacher }) {
-    const [changedName, setChangedName] = useState<string>('');
-    const [changedEmail, setChangedEmail] = useState<string>('');
-    const [changedPassword, setChangedPassword] = useState<string>('');
+    const [changedName, setChangedName] = useState<string | undefined>(teacher?.user.name);
+    const [changedEmail, setChangedEmail] = useState<string | undefined>(teacher?.user.email);
+    const [changedPassword, setChangedPassword] = useState<string | undefined>(undefined);
     const [changedType, setType] = useState<$Enums.UserType>(teacher?.user.type || 'Teacher');
 
     return (
       <div className={'absolute border gap-y-6 border-[#313537] rounded bg-[#161718] flex flex-col h-[90%] w-[40%] self-center p-4'}>
         <div className={'flex text-3xl'}>
           <h1 className={'font-bold text-left'}>Informace o učiteli</h1>
-          <span onClick={() => setShowing(undefined)} className="material-icons ml-auto text-gray-600 self-center text-3xl font-bold cursor-pointer">
+          <span onClick={() => {
+            setShowing(undefined)
+            setShowEdit(false)
+          }} className="material-icons ml-auto text-gray-600 self-center text-3xl font-bold cursor-pointer">
             close
           </span>
         </div>
@@ -79,8 +82,9 @@ export default function ClientTeachersPage({
           <h2 className={'text-lg'}>{teacher?.user.type == 'Admin' ? 'Administrátor' : 'Učitel'}</h2>
           <ActionButton className={'w-full'} onClick={async () => {
             setShowEdit(!showEdit)
-            if (!showEdit) {
-              await fetch('/api/school/user', {
+            if (showEdit) {
+              console.log('yes')
+              const res = await fetch('/api/school/user', {
                 method: 'PUT',
                 body: JSON.stringify({
                   id: teacher?.user.id,
@@ -90,6 +94,16 @@ export default function ClientTeachersPage({
                   type: changedType
                 })
               })
+              if (res.ok) {
+                setMessage('Učitel byl úspěšně upraven')
+              } else {
+                setMessage('Učitel se nepodařilo upravit: ' + await res.text())
+              }
+            } else {
+              setChangedName(teacher?.user.name || '')
+              setChangedEmail(teacher?.user.email || '')
+              setChangedPassword('')
+              setType(teacher?.user.type || 'Teacher')
             }
           }}>
             {showEdit ? 
@@ -209,6 +223,7 @@ export default function ClientTeachersPage({
         </div>
       </div>
       {showing && <ShowTeacherInfoSubPage teacher={showing} />}
+      {message && <TopInfo message={message} />}
     </main>
   );
 }

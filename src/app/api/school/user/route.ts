@@ -10,23 +10,23 @@ const UserUpdateBody = z.object({
   userType: z.enum(['student', 'teacher', 'admin']).optional()
 })
 
-export default async function PUT(req: NextRequest) {
+export async function PUT(req: NextRequest) {
   const session = await fetchSession()
 
   if (session && checkPermissions('admin', session)) {
     const body = await req.json()
+    const data: any = {}
+    if (body.name) data.name = body.name
+    if (body.email) data.email = body.email
+    if (body.password) data.password = hash(body.password)
+    if (body.userType) data.type = body.userType
     if (UserUpdateBody.safeParse(body).success) {
       try {
         await prisma.user.update({
           where: {
             id: body.id
           },
-          data: {
-            name: body.name,
-            email: body.email,
-            password: hash(body.password),
-            type: body.userType
-          }
+          data: data
         })
         return NextResponse.json({ success: true })
       } catch (e) {

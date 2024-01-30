@@ -12,12 +12,12 @@ function isStringArray(arr: any[]): arr is string[] {
   return Array.isArray(arr) && arr.every(item => typeof item === 'string');
 }
 
-export default async function POST(req: NextRequest) {
+export async function POST(req: NextRequest) {
   const body = await req.json()
   const session = await fetchSession()
 
   if (ClassCreateObject.safeParse(body).success === true) {
-    const users: any = {}
+    const users: any = []
     if (body.students != undefined && isStringArray(body.students)) {
       (body.students as string[]).forEach(v => {
         users.push({
@@ -39,10 +39,13 @@ export default async function POST(req: NextRequest) {
           }
         },
         students: {
-          connect: users
+          connect: [
+            ...users
+          ]
         }
       }
     })
+    return NextResponse.json({success: true})
   } else {
     NextResponse.json({error: 'Invalid body data'}, {status: 500})
   }

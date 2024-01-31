@@ -17,7 +17,7 @@ export default async function Teacher() {
       </h2>
       <div className={'w-full flex flex-col gap-4 justify-center items-center grow'}>
         <div className={'flex gap-4'}>
-          <GridItem title="Vytvořit Předmět" />
+          <GridItem href="/app/teacher/subjects" title="Vytvořit Předmět" />
           <GridItem title="Třídy" icon="school" />
           <GridItem title="Soubory" icon="upload_file" />
         </div>

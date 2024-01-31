@@ -3,8 +3,14 @@
 import { useState } from "react";
 import Button from "../button";
 import TextInput from "../textinput";
+import { checkPermissions } from "@/util/util";
 
-export default function ClientSubjects() {
+interface ClientSubjectsProps {
+  session: any
+}
+
+export default function ClientSubjects({session}: ClientSubjectsProps) {
+  const isAdmin = checkPermissions('admin', session)
   const students: any[] = []
   const [cls, setCls] = useState(students)
   const onTextChange = (e: any) => {
@@ -27,7 +33,7 @@ export default function ClientSubjects() {
         <div className={'border-r mt-6 border-r-[#313537] pr-6 flex flex-col gap-4 w-[20%]'}> {/*Toolkit*/}
           <h2 className={'font-bold text-2xl'}>Nástroje</h2>
           <TextInput onChange={(e) => onTextChange(e)} placeholder={'Vyhledat předmět'} name='search' />
-          <Button className={'w-full bg-blue-600 border-0'} href='/app/admin/classes/new'>Nový předmět</Button>
+          {isAdmin && <Button className={'w-full bg-blue-600 border-0'} href='/app/teacher/subjects/new'>Nový předmět</Button>}
         </div>
         <div className={'mt-6 flex flex-col grow ml-6'}>
           <h2 className={'font-bold text-2xl'}>Seznam</h2>
@@ -37,7 +43,6 @@ export default function ClientSubjects() {
               <div className={'text-xl font-semibold text-center w-full'}>Třída</div>
               <div className={'text-xl font-semibold text-center w-full'}>Učitel</div>
             </div>
-            
           </div>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { describe } from "node:test";
 
 export async function GET(req: NextRequest) {
   const classId = req.nextUrl.searchParams.get('id')

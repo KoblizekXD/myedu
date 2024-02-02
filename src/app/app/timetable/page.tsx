@@ -1,96 +1,53 @@
+import { Period, PeriodState, PeriodTimings, createPeriodTimings, days, getMinuteTimeDifference } from "@/util/timetable"
 
 
 interface TimetableProps {
-  className?: string
+  className?: string,
+  timings: PeriodTimings,
+  periods: Period[]
 }
 
-interface PeriodTimings {
-  periods: {
-    start: string
-    end: string
-  }[],
-  breaks: {
-    start: string
-    end: string
-    length: number
-  }[],
-  schoolStart?: string
+export function renderPeriodCell(period: Period, key: number) {
+  return (
+    <td key={key} className={`${period.state != PeriodState.NORMAL && 'bg-red-400'}`}>
+      <div className={`flex flex-col gap-1`}>
+        <h2 className={'font-bold text-lg'}>{period.name}</h2>
+        <p>{period.teacher}</p>
+        <p>{period.room}</p>
+      </div>
+    </td>
+  )
 }
 
-function getMinuteTimeDifference(start: string, end: string): number {
-  const startDate = new Date()
-  const endDate = new Date()
-  startDate.setHours(parseInt(start.split(':')[0]), parseInt(start.split(':')[1]))
-  endDate.setHours(parseInt(end.split(':')[0]), parseInt(end.split(':')[1]))
-  return Math.abs(endDate.getTime() - startDate.getTime()) / 1000 / 60
-}
-
-// Period format: HH:MM-HH:MM
-export function createPeriodTimings(periods: string[]): PeriodTimings {
-  let periodTimings: PeriodTimings = {
-    periods: [],
-    breaks: []
-  }
-  periods.forEach((period, i) => {
-    if (i == 0) {
-      periodTimings.schoolStart = period.split('-')[0]
-    }
-    // Create period
-    periodTimings.periods.push({
-      start: period.split('-')[0],
-      end: period.split('-')[1]
-    })
-    // Create break if not last period
-    if (i != periods.length - 1) {
-      periodTimings.breaks.push({
-        start: period.split('-')[1],
-        end: periods[i + 1].split('-')[0],
-        length: getMinuteTimeDifference(period.split('-')[1], periods[i + 1].split('-')[0])
-      })
-    }
-  })
-  return periodTimings
-}
-
-export function Timetable({className}: TimetableProps) {
+export function Timetable({className, timings, periods}: TimetableProps) {
   return (
     <table className={`${className} border rounded-md border-[#313537]`}>
       <thead>
         <tr>
           <th></th>
-          <th>8:05 - 8:50</th>
-          <th>8:55 - 9:40</th>
-          <th>10:00 - 10:45</th>
-          <th>10:50 - 11:35</th>
-          <th>11:45 - 12:30</th>
-          <th>12:35 - 13:20</th>
+          {timings.periods.map((val, i) => {
+            return <th key={i}>{val.start} - {val.end}</th>
+          })}
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-        </tr>
+        {days.map((day, i) => {
+          const found = periods.filter(periods => periods.day === i + 1)
+          return (
+            <tr key={i}>
+              <td>{day}</td>
+              {timings.periods.map((val, i) => {
+                if (found) {
+                  const per = found.find(period => period.timing == i + 1)
+                  if (per) {
+                    return renderPeriodCell(per, i)
+                  }
+                }
+                return <td key={i}></td>
+              })}
+            </tr>
+          )
+        })}
       </tbody>
     </table>
   )
@@ -100,7 +57,9 @@ export default function TimetablePage() {
   return (
     <main className={'my-6 mx-6 flex flex-col gap-2 w-full'}>
       <h1 className={'font-extrabold text-4xl'}>Rozvrh</h1>
-      <Timetable className='h-1/2' />
+      <Timetable periods={[
+        {name: 'Matematika', teacher: 'Marek', room: 'A-1', day: 1, timing: 1, state: PeriodState.NORMAL},
+      ]} timings={createPeriodTimings(['8:00-8:45'])} />
     </main>
   );
 }

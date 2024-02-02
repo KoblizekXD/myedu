@@ -67,6 +67,24 @@
     animation: fade 0.5s ease-out;
 }
 
+.zobak2::before {
+    content: '';
+	position: absolute;
+	width: 0;
+	height: 0;
+	top: 100%;
+	left: 50%;
+    transform: translateX(-50%);
+	border: .75rem solid transparent;
+	border-bottom: none;
+	border-top-color: inherit;
+}
+
+.zobak2 {
+    transform: translate(0%, -100%);
+    animation: fade 0.5s ease-out;
+}
+
 .uhh:hover {
     filter: brightness(5);
 }

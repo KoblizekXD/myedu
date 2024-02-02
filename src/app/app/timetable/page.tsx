@@ -1,4 +1,7 @@
-import { Period, PeriodState, PeriodTimings, createPeriodTimings, days, getMinuteTimeDifference } from "@/util/timetable"
+'use client'
+
+import { Period, PeriodState, PeriodTimings, createPeriodTimings, days } from "@/util/timetable"
+import { useState } from "react"
 
 
 interface TimetableProps {
@@ -8,9 +11,16 @@ interface TimetableProps {
 }
 
 export function renderPeriodCell(period: Period, key: number) {
+  const [detailsShown, setDetailsShown] = useState(false)
   return (
     <td key={key} className={`${period.state != PeriodState.NORMAL && 'bg-red-400'}`}>
-      <div className={`flex flex-col gap-1`}>
+      <div onMouseOver={() => setDetailsShown(true)} onMouseOut={() => setDetailsShown(false)} className={`flex border-white border flex-col gap-1`}>
+        <div className={`${!detailsShown && `hidden`} rounded px-4 py-2 border bg-slate-900 border-[#313537] absolute zobak2`}>
+          <h1 className={'text-xl font-bold'}>{period.name} {period.shortName && `(${period.shortName})`}</h1>
+          <p>Vyučuje: {period.teacher}</p>
+          <p>Místnost: {period.room}</p>
+          <p>Dodatečné informace k hodině: {period.description ? period.description : 'Nejsou'}</p>
+        </div>
         <h2 className={'font-bold text-lg'}>{period.name}</h2>
         <p>{period.teacher}</p>
         <p>{period.room}</p>

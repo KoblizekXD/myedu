@@ -11,7 +11,7 @@ interface TimetableProps {
   periods: Period[]
 }
 
-export function renderPeriodCell(period: Period, key: number) {
+function renderPeriodCell(period: Period, key: number) {
   const [detailsShown, setDetailsShown] = useState(false)
   return (
     <td key={key} className={`${period.state != PeriodState.Normal && 'bg-red-400'}`}>
@@ -30,7 +30,7 @@ export function renderPeriodCell(period: Period, key: number) {
   )
 }
 
-export function Timetable({className, timings, periods}: TimetableProps) {
+function Timetable({className, timings, periods}: TimetableProps) {
   return (
     <table className={`${className} border rounded-md border-[#313537]`}>
       <thead>
@@ -74,7 +74,7 @@ export default function TimetablePage() {
     room: 'A-1',
     at: new Date(2024, 2, 6),
     timing: 1,
-    state: PeriodState.Normal,
+    state: PeriodState.RoomChange,
     topic: null,
     notes: null
   }

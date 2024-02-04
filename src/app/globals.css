@@ -81,7 +81,8 @@
 }
 
 .zobak2 {
-    transform: translate(0%, -100%);
+    transform: translateY(-100%);
+    left: 65%;
     animation: fade 0.5s ease-out;
 }
 

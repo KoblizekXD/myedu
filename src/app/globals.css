@@ -50,6 +50,10 @@
     }
 }
 
+.stdborder {
+    border-color: #313537;
+}
+
 .zobak::before {
     content: '';
 	position: absolute;

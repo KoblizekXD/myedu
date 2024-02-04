@@ -1,3 +1,5 @@
+import { PeriodState } from '@prisma/client'
+
 export interface PeriodTimings {
   periods: {
     start: string;
@@ -48,13 +50,8 @@ export function createPeriodTimings(periods: string[]): PeriodTimings {
   return periodTimings
 }
 
-export enum PeriodState {
-  NORMAL,
-  ROOM_CHANGE,
-  TEACHER_CHANGE,
-}
 
-export interface Period {
+/* export interface Period {
   day: number; // Index of days + 1
   timing: number; // Index of periodTimings.periods + 1
   name: string;
@@ -64,6 +61,6 @@ export interface Period {
   color?: string;
   state?: PeriodState;
   description?: string;
-}
+} */
 
 export const days = ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek']

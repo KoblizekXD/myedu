@@ -109,10 +109,13 @@ model Period {
   id         Int       @id @default(autoincrement())
   subject    Subject   @relation(fields: [subjectId], references: [id])
   subjectId  Int
-  topic      String
+  topic      String?
   at         DateTime  @db.Timestamp
-  duration   Int       @default(45) // Duration in minutes
-  room      String?
-  notes     String? // Used mainly for notes such as changed rooms etc.
-  state     PeriodState @default(Normal)
+  room       String?
+  notes      String? // Used mainly for notes such as changed rooms etc.
+  state      PeriodState @default(Normal)
+  name       String // Used for naming periods
+  shortName  String? // Used for short names
+  teacher    String
+  timing     Int
 }

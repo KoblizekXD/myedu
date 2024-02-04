@@ -15,7 +15,7 @@ export function renderPeriodCell(period: Period, key: number) {
   const [detailsShown, setDetailsShown] = useState(false)
   return (
     <td key={key} className={`${period.state != PeriodState.Normal && 'bg-red-400'}`}>
-      <div onMouseOver={() => setDetailsShown(true)} onMouseOut={() => setDetailsShown(false)} className={`flex border-white border flex-col gap-1`}>
+      <div onMouseOver={() => setDetailsShown(true)} onMouseOut={() => setDetailsShown(false)} className={`flex flex-col gap-1`}>
         <div className={`${!detailsShown && `hidden`} rounded px-4 py-2 border bg-slate-900 border-[#313537] absolute zobak2`}>
           <h1 className={'text-xl font-bold'}>{period.name} {period.shortName && `(${period.shortName})`}</h1>
           <p>Vyučuje: {period.teacher}</p>
@@ -49,7 +49,7 @@ export function Timetable({className, timings, periods}: TimetableProps) {
               <td>{day}</td>
               {timings.periods.map((val, i) => {
                 if (found) {
-                  const per = found.find(period => period.at.getDay() == i + 1)
+                  const per = found.find(period => period.timing == i + 1)
                   if (per) {
                     return renderPeriodCell(per, i)
                   }
@@ -72,7 +72,7 @@ export default function TimetablePage() {
     subjectId: 0,
     teacher: 'Marek',
     room: 'A-1',
-    at: new Date(2024, 1, 1),
+    at: new Date(2024, 2, 6),
     timing: 1,
     state: PeriodState.Normal,
     topic: null,

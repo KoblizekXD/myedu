@@ -4,7 +4,7 @@ import Link from "next/link";
 import "material-icons/iconfont/material-icons.css";
 import TextInput from "@/components/textinput";
 import SelectionBox from "@/components/selectionbox";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import TopInfo from "../topinfo";
 import TopError from "../toperror";
 
@@ -80,27 +80,38 @@ function SubjectEditor({claimed = []}: {claimed: string[]}) { // claimed format:
   return (
     <>
       <h1 className={'text-xl font-semibold'}>Editor hodin</h1>
-      <div className={'border stdborder w-1/2 h-1/2 p-2 rounded grid grid-rows-5 grid-cols-8 gap-2 *:flex *:justify-center *:py-2'}>
-        {
-          Array(5).fill(1).map((e, i) => {
-            return (Array(8).fill(1).map((e, j) => {
-              const current = [i+1, j+1].join('x')
-              if (claimed.includes(current)) {
-                return (
-                  <div className={'border-sky-500 p-1 rounded text-white items-center border-collapse select-none border text-center'}>
-                    {current}
-                  </div>
-                )
-              } else {
-                return (
-                  <div className={'border select-none text-[#313537] items-center stdborder rounded border-dashed'}>
-                    Prázdné
-                  </div>
-                )
-              }
-            }))
-          })
-        }
+      <div className={'border stdborder w-1/2 h-1/2 rounded p-2'}>
+        <h1 className={'text-center pb-2 font-semibold'}>Hodiny</h1>
+        <div className="flex">
+          <div className={'flex pr-2 items-center'}>
+            <h1 className="rotate-[-90deg] font-semibold text-center">Dny</h1>
+          </div>
+          <div className={'grid grid-rows-5 grid-cols-8 gap-2 *:flex *:justify-center *:py-2'}>
+            {
+              Array(5).fill(1).map((e, i) => {
+                return (Array(8).fill(1).map((e, j) => {
+                  const current = [i+1, j+1].join('x')
+                  if (claimed.includes(current)) {
+                    return (
+                      <div key={current} className={'border-red-500 p-1 rounded text-white items-center border-collapse select-none border-4 text-center'}>
+                        {current}
+                      </div>
+                    )
+                  } else {
+                    const [state, setState] = useState(false)
+                    return (
+                      <div key={current} onClick={() => {
+                        setState(!state)
+                      }} className={`border cursor-pointer select-none ${!state ? 'text-[#313537] stdborder' : 'border-sky-500'} items-center text-center  rounded border-dashed`}>
+                        {state ? 'Zvoleno' : 'Zvolte kliknutím'}
+                      </div>
+                    )
+                  }
+                }))
+              })
+            }
+          </div>
+        </div>
       </div>
     </>
   )

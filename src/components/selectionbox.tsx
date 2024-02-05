@@ -7,17 +7,18 @@ interface SelectionBoxProps {
   text?: string
   items?: string[]
   multiple?: boolean
+  className?: string
   onSelect?: (selected: string) => void
 }
 
-export default function SelectionBox({text, items, onSelect}: SelectionBoxProps) {
+export default function SelectionBox({text, items, className, onSelect}: SelectionBoxProps) {
   
   const [isOpen, setIsOpen] = useState(false)
   const [selected, setSelected] = useState('')
   const [selecteds, setSelecteds] = useState<string[]>([])
 
   return (
-    <div onClick={() => setIsOpen(!isOpen)} className={`${isOpen && 'border-b-0 rounded-b-none'} border-[#1d2537] w-1/6 relative select-none cursor-pointer text-[#9aa1ad] border rounded flex items-center p-2`}>
+    <div onClick={() => setIsOpen(!isOpen)} className={`${className && className} ${isOpen && 'border-b-0 rounded-b-none'} border-[#1d2537] w-1/6 relative select-none cursor-pointer text-[#9aa1ad] border rounded flex items-center p-2`}>
       {selected || text || 'Zvolit'}
       <span className="material-icons ml-auto">
         expand_more

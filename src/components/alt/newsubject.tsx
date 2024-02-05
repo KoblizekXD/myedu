@@ -54,16 +54,20 @@ export default function NewSubject({teacherMap}: NewClassProps) {
         Zpět
       </Link>
       <div className={'grow flex justify-center'}>
-        <form onSubmit={async (e) => await createNewClass(e)} className={'w-full flex gap-4 items-center flex-col'}>
-          <h2 className={'text-xl font-semibold'}>Jméno předmětu</h2>
-          <TextInput onChange={(e) => setName(e.target.value)} name="class_name" placeholder='Jméno třídy' className={'w-1/6'} />
-          <h2 className={'text-xl font-semibold'}>Zvolte učitele</h2>
-          <SelectionBox onSelect={i => setTeacherId(teacherMap.get(i) || '')} text={'Zvolit učitele'} items={[...teacherMap.keys()]} />
-          <h2 className={'text-xl font-semibold'}>Zvolte třídu</h2>
-          <SelectionBox onSelect={i => {
-            setShowSubjectEditor(true)
-          }} text={'Zvolit učitele'} items={[...teacherMap.keys()]} />
-          <SubjectEditor claimed={['1x1']} />
+        <form onSubmit={async (e) => await createNewClass(e)} className={'w-full flex items-center flex-col'}>
+          <div className="flex w-[90%] items-center px-4 h-[80%]">
+            <div className='flex flex-col gap-4 justify-center'>
+              <h2 className={'text-xl font-semibold'}>Jméno předmětu</h2>
+              <TextInput onChange={(e) => setName(e.target.value)} name="class_name" placeholder='Jméno třídy' className={'w-full'} />
+              <h2 className={'text-xl font-semibold'}>Zvolte učitele</h2>
+              <SelectionBox className="w-full" onSelect={i => setTeacherId(teacherMap.get(i) || '')} text={'Zvolit učitele'} items={[...teacherMap.keys()]} />
+              <h2 className={'text-xl font-semibold'}>Zvolte třídu</h2>
+              <SelectionBox className="w-full" onSelect={i => {
+                setShowSubjectEditor(true)
+              }} text={'Zvolit učitele'} items={[...teacherMap.keys()]} />
+            </div>
+            <SubjectEditor claimed={['1x1']} />
+          </div>
           <button
               type="submit"
               className={`disabled:opacity-50 bg-[#0066ff] border-[0] w-1/6 rounded text-white text-center py-3 px-3`}
@@ -76,17 +80,18 @@ export default function NewSubject({teacherMap}: NewClassProps) {
   )
 }
 
-function SubjectEditor({claimed = []}: {claimed: string[]}) { // claimed format: 1x1 = monday, first hour
+function SubjectEditor({claimed = [], show = true}: {claimed: string[], show?: boolean}) { // claimed format: 1x1 = monday, first hour
   return (
-    <>
+    <div className={'flex flex-col grow gap-4 items-center'}>
       <h1 className={'text-xl font-semibold'}>Editor hodin</h1>
-      <div className={'border stdborder w-1/2 h-1/2 rounded p-2'}>
+      {!show && <h1 className={'text-red-500 font-bold'}>Prvně zvolte všechna pole vlevo.</h1>}
+      <div className={`${!show && 'hidden'} border stdborder w-[60%] rounded p-2`}>
         <h1 className={'text-center pb-2 font-semibold'}>Hodiny</h1>
         <div className="flex">
           <div className={'flex pr-2 items-center'}>
             <h1 className="rotate-[-90deg] font-semibold text-center">Dny</h1>
           </div>
-          <div className={'grid grid-rows-5 grid-cols-8 gap-2 *:flex *:justify-center *:py-2'}>
+          <div className={`grid grid-rows-5 grid-cols-8 gap-2 *:flex *:justify-center *:py-2`}>
             {
               Array(5).fill(1).map((e, i) => {
                 return (Array(8).fill(1).map((e, j) => {
@@ -113,6 +118,6 @@ function SubjectEditor({claimed = []}: {claimed: string[]}) { // claimed format:
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }

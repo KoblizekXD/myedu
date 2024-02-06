@@ -2,6 +2,7 @@
 
 import { PeriodTimings, createPeriodTimings, days } from "@/util/timetable"
 import { Period, PeriodState } from "@prisma/client"
+import { headers } from "next/headers"
 import { useState } from "react"
 
 
@@ -64,7 +65,9 @@ function Timetable({className, timings, periods}: TimetableProps) {
   )
 }
 
-export default function TimetablePage() {
+export default async function TimetablePage() {
+  const cla = await prisma.class.findFirst()
+  const res = await fetch(process.env.NEXTAUTH_URL + '/api/school/timetable?id=' + cla?.id, {method: 'GET', headers: new Headers(headers())});
   const example: Period = {
     id: 0,
     name: 'Matematika',

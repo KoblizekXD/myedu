@@ -65,6 +65,7 @@ model School {
 
   domain    String    @unique
   logo      String?
+  defaultStartTime String @default("08:00")
 
   admins    Admin[]
   teachers  Teacher[]

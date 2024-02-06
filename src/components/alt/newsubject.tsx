@@ -35,7 +35,7 @@ export default function NewSubject({teacherMap}: NewClassProps) {
     })
     if (res.ok) {
       setError('')
-      setMessage('Třída byla úspěšně vytvořena')
+      setMessage('Předmět byla úspěšně vytvořen')
     } else {
       setMessage('')
       setError(`Něco se pokazilo: ${(await res.json()).error}`)
@@ -58,7 +58,7 @@ export default function NewSubject({teacherMap}: NewClassProps) {
           <div className="flex w-[90%] items-center px-4 h-[80%]">
             <div className='flex flex-col gap-4 justify-center'>
               <h2 className={'text-xl font-semibold'}>Jméno předmětu</h2>
-              <TextInput onChange={(e) => setName(e.target.value)} name="class_name" placeholder='Jméno třídy' className={'w-full'} />
+              <TextInput onChange={(e) => setName(e.target.value)} name="class_name" placeholder='Jméno předmětu' className={'w-full'} />
               <h2 className={'text-xl font-semibold'}>Zvolte učitele</h2>
               <SelectionBox className="w-full" onSelect={i => setTeacherId(teacherMap.get(i) || '')} text={'Zvolit učitele'} items={[...teacherMap.keys()]} />
               <h2 className={'text-xl font-semibold'}>Zvolte třídu</h2>

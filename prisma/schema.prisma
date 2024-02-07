@@ -111,7 +111,7 @@ model Period {
   subject    Subject   @relation(fields: [subjectId], references: [id])
   subjectId  Int
   topic      String?
-  at         DateTime  @db.Timestamp
+  at         DateTime  @db.Date
   room       String?
   notes      String? // Used mainly for notes such as changed rooms etc.
   state      PeriodState @default(Normal)

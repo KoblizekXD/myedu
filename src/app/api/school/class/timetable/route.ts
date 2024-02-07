@@ -9,26 +9,32 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const classId = req.nextUrl.searchParams.get('id')
   const dateStr = req.nextUrl.searchParams.get('date')
-  let date: Date
+  const datesStr = req.nextUrl.searchParams.getAll('dates')
+  let date: Date[]
   if (dateStr)
-    date = new Date(dateStr)
+    date = [new Date(dateStr)]
+  else if (datesStr)
+    date = datesStr.map(d => new Date(d))
   else
-    date = new Date()
+    date = [new Date()]
   if (!classId || isNaN(Number(classId))) {
     return NextResponse.json({error: 'Class id was not provided'}, {status: 500})
   } else {
-    const res = prisma.period.findMany({
-      where: {
-        subject: {
-          classId: Number(classId)
-        },
-        at: new Date(date)
-      }
+    let res: any[] = []
+    date.forEach(async (d, i) => {
+      res.push({
+        at: d,
+        periods: await prisma.period.findMany({
+          where: {
+            subject: {
+              classId: Number(classId)
+            },
+            at: d
+          }
+        })
+      })
     })
     
-    return NextResponse.json({
-      at: date,
-      periods: res
-    }, {status: 200})
+    return NextResponse.json(res, {status: 200})
   }
 }
